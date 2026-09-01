@@ -39,3 +39,7 @@ dist-ssr
 
 .cursor/
 table-*.csv
+
+# Keep broken Git metadata out of the clean repo
+ptaau.org.git-broken-*
+
