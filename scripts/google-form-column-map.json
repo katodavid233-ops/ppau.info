@@ -1,0 +1,18 @@
+{
+  "description": "Map Google Form export column headers to membership_applications fields after export to CSV",
+  "mappings": {
+    "Full Name": "full_name",
+    "Email Address": "email",
+    "Telephone Contact": "phone",
+    "National ID Number (NIN)": "id_number",
+    "Gender": "gender",
+    "Date of Birth": "date_of_birth",
+    "Nationality": "nationality",
+    "Physical Address / Residence": "physical_address",
+    "Region": "region",
+    "Professional Qualification": "professional_qualification",
+    "AHPC Registration Number": "ahpc_registration_number"
+  },
+  "import_status": "approved",
+  "import_source": "google_form_import"
+}

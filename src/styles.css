@@ -1,0 +1,226 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --shadow-soft: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-premium: 0 8px 30px rgba(0,0,0,0.08);
+  --shadow-elegant: 0 16px 48px rgba(0,0,0,0.12);
+  --shadow-card: 0 4px 20px rgba(22, 163, 74, 0.08);
+}
+
+:root {
+  --radius: 14px;
+
+  --background: #F4F9F7;
+  --foreground: #1a2e2a;
+
+  --card: #FFFFFF;
+  --card-foreground: #1a2e2a;
+  --popover: #FFFFFF;
+  --popover-foreground: #1a2e2a;
+
+  /* Teal/Mint primary — matches the reference UI */
+  --primary: #0d9488;
+  --primary-foreground: #FFFFFF;
+  --primary-soft: #e6f7f5;
+
+  /* Slightly darker teal for hover/accent */
+  --secondary: #0f766e;
+  --secondary-foreground: #FFFFFF;
+  --secondary-soft: #ccf0ec;
+
+  --muted: #f0f7f5;
+  --muted-foreground: #5a7a74;
+
+  --accent: #e6f7f5;
+  --accent-foreground: #0d9488;
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: #FFFFFF;
+
+  --border: #d4ede9;
+  --input: #d4ede9;
+  --ring: #0d9488;
+
+  --gradient-hero: linear-gradient(135deg, rgba(13,148,136,0.85) 0%, rgba(15,118,110,0.75) 100%);
+  --gradient-primary: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  --gradient-teal: linear-gradient(135deg, #0d9488, #14b8a6);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+}
+
+@layer utilities {
+  .section-padding { padding: 80px 0; }
+
+  .glass-navbar {
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(13, 148, 136, 0.1);
+  }
+
+  .nav-link-underline { position: relative; }
+  .nav-link-underline::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+  .nav-link-underline:hover::after { width: 100%; }
+  .nav-link-active::after { width: 100% !important; }
+
+  .shadow-soft    { box-shadow: var(--shadow-soft); }
+  .shadow-premium { box-shadow: var(--shadow-premium); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-card    { box-shadow: var(--shadow-card); }
+
+  .bg-gradient-hero    { background-image: var(--gradient-hero); }
+  .bg-gradient-primary { background-image: var(--gradient-primary); }
+  .bg-gradient-teal    { background-image: var(--gradient-teal); }
+
+  .animate-reveal {
+    animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out both;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out both;
+  }
+
+  /* Teal icon box — used across cards */
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--gradient-teal);
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .icon-box-soft {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  /* Section label pill */
+  .section-label {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elegant);
+  }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Dark mode ─────────────────────────────────────────── */
+.dark {
+  --background: oklch(0.16 0.02 180);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.20 0.02 180);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.20 0.02 180);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.65 0.12 180);
+  --primary-foreground: oklch(0.16 0.02 180);
+  --primary-soft: oklch(0.28 0.05 180);
+  --secondary: oklch(0.58 0.10 180);
+  --secondary-soft: oklch(0.26 0.04 180);
+  --muted: oklch(0.24 0.02 180);
+  --muted-foreground: oklch(0.65 0.02 180);
+  --accent: oklch(0.28 0.05 180);
+  --accent-foreground: oklch(0.96 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.65 0.12 180);
+}
