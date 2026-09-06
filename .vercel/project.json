@@ -1,1 +1,16 @@
-{"projectId":"prj_FnZJzmSSuWclDQdMVZ0mwszRpo26","orgId":"team_9dE3gmI4DrakLFJU2qe9CA7S","projectName":"ptaau-orgnes"}
+{
+  "projectId": "prj_6tiiFBdbjMn5NLexIvtq1xR0la5p",
+  "orgId": "team_WjB16K8sNUVH0Cm8Uila1Mbu",
+  "projectName": "ppau.info",
+  "settings": {
+    "createdAt": 1788286148350,
+    "framework": "tanstack-start-lovable",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}

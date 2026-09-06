@@ -8,7 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchMemberDashboard } from "@/lib/membership/api";
 import { MemberProfilePhoto } from "@/components/member/MemberProfilePhoto";
-import { Calendar, CreditCard, FileText, RefreshCw, BookOpen, Clock, Award, Users, GraduationCap } from "lucide-react";
+import { fetchCpdPointsServer } from "@/lib/cpd/server";
+import type { CpdPointsResponse } from "@/lib/cpd/client";
+import { Calendar, CreditCard, FileText, RefreshCw, BookOpen, Clock, Award, Users, GraduationCap, Target } from "lucide-react";
+
+const CPD_ANNUAL_TARGET = 30;
 
 export const Route = createFileRoute("/member/")({
   component: MemberDashboard,
@@ -24,6 +28,17 @@ function MemberDashboard() {
       if (!session) throw new Error("Not logged in");
       return fetchMemberDashboard(session.access_token);
     },
+  });
+  const { data: cpdData, isLoading: cpdLoading } = useQuery<
+    CpdPointsResponse | null | undefined
+  >({
+    queryKey: ["member-cpd-points", data?.member?.membership_number as string | undefined],
+    queryFn: async () => {
+      const reg = data?.member?.membership_number as string | undefined;
+      if (!reg) return undefined;
+      return (await fetchCpdPointsServer({ data: { reg } })) as CpdPointsResponse | null | undefined;
+    },
+    enabled: !!data?.member?.membership_number,
   });
 
   async function logout() {
@@ -164,6 +179,74 @@ function MemberDashboard() {
             <Button asChild variant="outline" className="mt-4 rounded-full text-xs">
               <Link to="/cpd">View all CPD courses</Link>
             </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {member?.membership_number && (
+        <Card className="mt-8 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Award className="h-5 w-5 text-primary" /> My CPD Points
+              <span className="text-xs font-normal text-muted-foreground ml-auto">
+                via ppau-cme-cpd.org
+              </span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {cpdLoading ? (
+              <p className="text-sm text-muted-foreground">Loading your CPD points…</p>
+            ) : cpdData == null ? (
+              <p className="text-sm text-muted-foreground">
+                Unable to retrieve CPD points. Please try again later.
+              </p>
+            ) : cpdData.count === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                No approved CPD activities yet. Complete modules or attend sessions on the{" "}
+                <a
+                  href="https://ppau-cme-cpd.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline"
+                >
+                  PPAU CME-CPD portal
+                </a>{" "}
+                to start earning points.
+              </p>
+            ) : (
+              <>
+                <div className="flex flex-wrap items-center gap-6 mb-6">
+                  <div>
+                    <div className="text-3xl font-bold text-primary">{cpdData.total_points}</div>
+                    <div className="text-xs text-muted-foreground">Accumulative CPD points</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Target className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                    <span className="text-muted-foreground">
+                      {Math.min(100, Math.round((cpdData.total_points / CPD_ANNUAL_TARGET) * 100))}%
+                      of {CPD_ANNUAL_TARGET}-point annual target
+                    </span>
+                  </div>
+                </div>
+                <ul className="divide-y divide-border rounded-xl border border-border overflow-hidden">
+                  {cpdData.items.map((item, i) => (
+                    <li key={i} className="flex items-start justify-between gap-3 bg-background px-4 py-3 text-sm">
+                      <div className="min-w-0">
+                        <div className="font-medium text-foreground truncate">{item.title}</div>
+                        <div className="text-xs text-muted-foreground mt-0.5">
+                          {item.source === "event" ? "Event / Session" : item.source === "self_learning" ? "Self-Learning" : "Module"}
+                          {item.event_date ? ` · ${item.event_date}` : item.date ? ` · ${String(item.date).slice(0, 10)}` : ""}
+                          {item.certificate_code ? ` · ${item.certificate_code}` : ""}
+                        </div>
+                      </div>
+                      <div className="font-semibold text-primary shrink-0">
+                        +{item.points} pts
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </CardContent>
         </Card>
       )}

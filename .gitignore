@@ -21,6 +21,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+!.env.production
 
 # Wrangler / Cloudflare
 .wrangler/
@@ -43,3 +44,5 @@ table-*.csv
 # Keep broken Git metadata out of the clean repo
 ptaau.org.git-broken-*
 
+.vercel
+.env*

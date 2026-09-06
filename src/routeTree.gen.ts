@@ -57,6 +57,7 @@ import { Route as AdminMembersAcceptedRouteImport } from './routes/admin/members
 import { Route as AdminFormsStudentRouteImport } from './routes/admin/forms.student'
 import { Route as AdminFormsProfessionalRouteImport } from './routes/admin/forms.professional'
 import { Route as AdminEmailSettingsRouteImport } from './routes/admin/email/settings'
+import { Route as AdminEmailBroadcastRouteImport } from './routes/admin/email/broadcast'
 import { Route as AdminApplicationsIdRouteImport } from './routes/admin/applications.$id'
 import { Route as AdminEmailTemplatesRouteRouteImport } from './routes/admin/email/templates/route'
 import { Route as AdminEmailTemplatesIndexRouteImport } from './routes/admin/email/templates/index'
@@ -308,6 +309,11 @@ const AdminEmailSettingsRoute = AdminEmailSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminEmailRouteRoute,
 } as any)
+const AdminEmailBroadcastRoute = AdminEmailBroadcastRouteImport.update({
+  id: '/broadcast',
+  path: '/broadcast',
+  getParentRoute: () => AdminEmailRouteRoute,
+} as any)
 const AdminApplicationsIdRoute = AdminApplicationsIdRouteImport.update({
   id: '/applications/$id',
   path: '/applications/$id',
@@ -374,6 +380,7 @@ export interface FileRoutesByFullPath {
   '/membership-form/': typeof MembershipFormIndexRoute
   '/admin/email/templates': typeof AdminEmailTemplatesRouteRouteWithChildren
   '/admin/applications/$id': typeof AdminApplicationsIdRoute
+  '/admin/email/broadcast': typeof AdminEmailBroadcastRoute
   '/admin/email/settings': typeof AdminEmailSettingsRoute
   '/admin/forms/professional': typeof AdminFormsProfessionalRoute
   '/admin/forms/student': typeof AdminFormsStudentRoute
@@ -424,6 +431,7 @@ export interface FileRoutesByTo {
   '/member': typeof MemberIndexRoute
   '/membership-form': typeof MembershipFormIndexRoute
   '/admin/applications/$id': typeof AdminApplicationsIdRoute
+  '/admin/email/broadcast': typeof AdminEmailBroadcastRoute
   '/admin/email/settings': typeof AdminEmailSettingsRoute
   '/admin/forms/professional': typeof AdminFormsProfessionalRoute
   '/admin/forms/student': typeof AdminFormsStudentRoute
@@ -479,6 +487,7 @@ export interface FileRoutesById {
   '/membership-form/': typeof MembershipFormIndexRoute
   '/admin/email/templates': typeof AdminEmailTemplatesRouteRouteWithChildren
   '/admin/applications/$id': typeof AdminApplicationsIdRoute
+  '/admin/email/broadcast': typeof AdminEmailBroadcastRoute
   '/admin/email/settings': typeof AdminEmailSettingsRoute
   '/admin/forms/professional': typeof AdminFormsProfessionalRoute
   '/admin/forms/student': typeof AdminFormsStudentRoute
@@ -535,6 +544,7 @@ export interface FileRouteTypes {
     | '/membership-form/'
     | '/admin/email/templates'
     | '/admin/applications/$id'
+    | '/admin/email/broadcast'
     | '/admin/email/settings'
     | '/admin/forms/professional'
     | '/admin/forms/student'
@@ -585,6 +595,7 @@ export interface FileRouteTypes {
     | '/member'
     | '/membership-form'
     | '/admin/applications/$id'
+    | '/admin/email/broadcast'
     | '/admin/email/settings'
     | '/admin/forms/professional'
     | '/admin/forms/student'
@@ -639,6 +650,7 @@ export interface FileRouteTypes {
     | '/membership-form/'
     | '/admin/email/templates'
     | '/admin/applications/$id'
+    | '/admin/email/broadcast'
     | '/admin/email/settings'
     | '/admin/forms/professional'
     | '/admin/forms/student'
@@ -1008,6 +1020,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEmailSettingsRouteImport
       parentRoute: typeof AdminEmailRouteRoute
     }
+    '/admin/email/broadcast': {
+      id: '/admin/email/broadcast'
+      path: '/broadcast'
+      fullPath: '/admin/email/broadcast'
+      preLoaderRoute: typeof AdminEmailBroadcastRouteImport
+      parentRoute: typeof AdminEmailRouteRoute
+    }
     '/admin/applications/$id': {
       id: '/admin/applications/$id'
       path: '/applications/$id'
@@ -1057,11 +1076,13 @@ const AdminEmailTemplatesRouteRouteWithChildren =
 
 interface AdminEmailRouteRouteChildren {
   AdminEmailTemplatesRouteRoute: typeof AdminEmailTemplatesRouteRouteWithChildren
+  AdminEmailBroadcastRoute: typeof AdminEmailBroadcastRoute
   AdminEmailSettingsRoute: typeof AdminEmailSettingsRoute
 }
 
 const AdminEmailRouteRouteChildren: AdminEmailRouteRouteChildren = {
   AdminEmailTemplatesRouteRoute: AdminEmailTemplatesRouteRouteWithChildren,
+  AdminEmailBroadcastRoute: AdminEmailBroadcastRoute,
   AdminEmailSettingsRoute: AdminEmailSettingsRoute,
 }
 

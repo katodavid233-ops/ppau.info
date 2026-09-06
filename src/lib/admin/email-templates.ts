@@ -1,7 +1,7 @@
 export const EMAIL_TEMPLATE_SLUGS = [
   { slug: "welcome", name: "Welcome (approved)", description: "Membership approved — welcome email" },
   { slug: "application_submitted", name: "Application received", description: "After applicant submits form" },
-  { slug: "payment_received", name: "Payment confirmation", description: "Successful Flutterwave or verified payment" },
+  { slug: "payment_received", name: "Payment confirmation", description: "Successful or verified payment" },
   {
     slug: "payment_reminder",
     name: "Payment reminder",
@@ -84,7 +84,7 @@ export const DEFAULT_TEMPLATE_CONTENT: Record<
     description: "Admin resend for unpaid applications",
     subject: "PPAU Membership — Complete Your Payment",
     body_html:
-      "<p>Dear {{name}},</p><p>Your application is awaiting payment of <strong>UGX {{amount}}</strong>.</p><p><a href=\"{{payment_link}}\">Pay with Flutterwave</a></p>{{how_to_pay}}<p>Reference: {{reference}}</p>",
+      "<p>Dear {{name}},</p><p>Your application is awaiting payment of <strong>UGX {{amount}}</strong>.</p><p><a href=\"{{payment_link}}\">Open the payment page</a></p>{{how_to_pay}}<p>Reference: {{reference}}</p>",
   },
   rejected: {
     name: "Application rejected",

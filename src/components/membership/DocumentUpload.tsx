@@ -11,6 +11,7 @@ type Props = {
   label: string;
   accept?: string;
   required?: boolean;
+  onUploadComplete?: () => void;
 };
 
 export function DocumentUpload({
@@ -19,6 +20,7 @@ export function DocumentUpload({
   label,
   accept = "image/*,.pdf",
   required,
+  onUploadComplete,
 }: Props) {
   const [uploading, setUploading] = useState(false);
   const [done, setDone] = useState(false);
@@ -30,6 +32,7 @@ export function DocumentUpload({
     try {
       await uploadDocument(applicationId, documentType, file);
       setDone(true);
+      onUploadComplete?.();
       toast.success(`${label} uploaded`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Upload failed");

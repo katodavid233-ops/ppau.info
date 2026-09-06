@@ -61,7 +61,7 @@ function AdminPaymentsPage() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold">Payments</h1>
-          <p className="text-sm text-muted-foreground">Flutterwave and manual payment records</p>
+          <p className="text-sm text-muted-foreground">Payment records</p>
         </div>
         <Button variant="outline" size="sm" onClick={() => refetch()}>Refresh</Button>
       </div>

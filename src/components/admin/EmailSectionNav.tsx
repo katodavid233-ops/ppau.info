@@ -1,9 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Mail, Settings } from "lucide-react";
+import { Mail, Megaphone, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   { to: "/admin/email/templates", label: "Templates", icon: Mail, match: "/admin/email/templates" },
+  { to: "/admin/email/broadcast", label: "Send to members", icon: Megaphone, match: "/admin/email/broadcast" },
   { to: "/admin/email/settings", label: "Email settings", icon: Settings, match: "/admin/email/settings" },
 ] as const;
 

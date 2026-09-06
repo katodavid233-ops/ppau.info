@@ -90,7 +90,7 @@ const FALLBACK: Record<string, (d: Record<string, string>) => { subject: string;
   }),
   payment_reminder: (d) => ({
     subject: "PPAU Membership — Complete Your Payment",
-    html: `<p>Dear ${d.name},</p><p>Your PPAU membership application is awaiting payment of UGX ${d.amount}.</p><p><a href="${d.payment_link}">Pay now with Flutterwave</a></p>${d.how_to_pay ?? ""}`,
+    html: `<p>Dear ${d.name},</p><p>Your PPAU membership application is awaiting payment of UGX ${d.amount}.</p><p><a href="${d.payment_link}">Open the payment page</a></p>${d.how_to_pay ?? ""}`,
   }),
   welcome: (d) => ({
     subject: "Welcome to PPAU",
@@ -322,5 +322,30 @@ export async function sendEmail(
     template: slug,
     settings,
     metadata: data,
+  });
+}
+
+/** Send a one-off message (admin broadcast) with branding, e.g. {{name}}/{{portal_url}} placeholders. */
+export async function sendBroadcastEmail(opts: {
+  to: string;
+  subject: string;
+  html: string;
+  data?: Record<string, string>;
+  runId?: string;
+}) {
+  const settings = await loadSettings();
+  const data = opts.data ?? {};
+  const metadata: Record<string, string> = {
+    ...data,
+    ...(opts.runId ? { run_id: opts.runId } : {}),
+  };
+
+  return dispatchEmail({
+    to: opts.to,
+    subject: renderVars(opts.subject, data),
+    html: renderVars(opts.html, data),
+    template: "broadcast",
+    settings,
+    metadata,
   });
 }

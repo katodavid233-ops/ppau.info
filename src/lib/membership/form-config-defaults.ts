@@ -88,7 +88,13 @@ export const PROFESSIONAL_FIELD_DEFAULTS: FormFieldConfig[] = [
     step: "Professional",
     helpText: "Shown when sector is Public",
   },
-  { key: "work_address", label: "Work Address", required: true, enabled: true, step: "Professional" },
+  {
+    key: "work_address",
+    label: "Work Address",
+    required: true,
+    enabled: true,
+    step: "Professional",
+  },
   {
     key: "years_experience",
     label: "Years of Professional Experience",
@@ -144,7 +150,13 @@ export const STUDENT_FIELD_DEFAULTS: FormFieldConfig[] = [
     step: "Personal",
   },
   { key: "region", label: "Region", required: true, enabled: true, step: "Personal" },
-  { key: "institution_name", label: "Institution", required: true, enabled: true, step: "Academic" },
+  {
+    key: "institution_name",
+    label: "Institution",
+    required: true,
+    enabled: true,
+    step: "Academic",
+  },
   { key: "programme", label: "Programme", required: true, enabled: true, step: "Academic" },
   {
     key: "date_of_admission",
@@ -184,7 +196,13 @@ export const STUDENT_FIELD_DEFAULTS: FormFieldConfig[] = [
     step: "Academic",
     helpText: "e.g. Direct (A level)",
   },
-  { key: "student_interests", label: "Areas of Interest", required: true, enabled: true, step: "Academic" },
+  {
+    key: "student_interests",
+    label: "Areas of Interest",
+    required: true,
+    enabled: true,
+    step: "Academic",
+  },
   {
     key: "declaration",
     label: "I accept the declaration",
@@ -207,8 +225,8 @@ export const DEFAULT_PROFESSIONAL_CONFIG: MembershipFormConfig = {
     { type: "ahpc_certificate", label: "Certificate of registration", required: true },
     {
       type: "payment_proof",
-      label: "Proof of payment (if already paid manually)",
-      required: false,
+      label: "Proof of payment (signed receipt/note from the treasurer)",
+      required: true,
     },
   ],
   fields_config: PROFESSIONAL_FIELD_DEFAULTS,

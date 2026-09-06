@@ -35,9 +35,6 @@ verify_jwt = false
 [functions.create-upload-url]
 verify_jwt = false
 
-[functions.initiate-flutterwave-payment]
-verify_jwt = false
-
 [functions.admin-resend-payment-email]
 verify_jwt = false
 

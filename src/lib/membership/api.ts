@@ -187,20 +187,6 @@ export async function requestMemberPortalAccess(email: string, redirectTo?: stri
   );
 }
 
-export async function initiatePayment(
-  opts: {
-    application_id?: string;
-    member_id?: string;
-    is_renewal?: boolean;
-    use_subscription?: boolean;
-  },
-) {
-  return invokeFunction<{ type: string; link: string; payment_id: string; tx_ref: string }>(
-    "initiate-flutterwave-payment",
-    opts,
-  );
-}
-
 export async function resendPaymentEmail(application_id: string, accessToken: string) {
   return invokeFunction<{ success: boolean; email: string; payment_link: string }>(
     "admin-resend-payment-email",
@@ -215,6 +201,49 @@ export async function sendTestEmail(to: string, accessToken: string) {
     { to },
     `Bearer ${accessToken}`,
   );
+}
+
+export type BroadcastBatchResult = {
+  total: number;
+  offset: number;
+  processed: number;
+  sent: number;
+  failed: number;
+  next_offset: number;
+  done: boolean;
+  failures: { email: string; error: string }[];
+};
+
+export async function sendMemberBroadcast(
+  subject: string,
+  html: string,
+  accessToken: string,
+  offset = 0,
+  runId: string | null = null,
+) {
+  return invokeFunction<BroadcastBatchResult>(
+    "admin-send-broadcast",
+    { subject, html, offset, ...(runId ? { runId } : {}) },
+    `Bearer ${accessToken}`,
+  );
+}
+
+/** Send to all approved members in batches, reporting progress after each batch. */
+export async function sendMemberBroadcastToAll(
+  subject: string,
+  html: string,
+  accessToken: string,
+  onProgress?: (result: BroadcastBatchResult) => void,
+) {
+  const runId = crypto.randomUUID();
+  let offset = 0;
+  let last: BroadcastBatchResult;
+  do {
+    last = await sendMemberBroadcast(subject, html, accessToken, offset, runId);
+    offset = last.next_offset;
+    onProgress?.(last);
+  } while (!last.done);
+  return last;
 }
 
 export async function adminAction(

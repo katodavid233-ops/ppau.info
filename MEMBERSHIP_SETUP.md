@@ -65,6 +65,30 @@ Invoke daily via Supabase cron or external scheduler:
 POST https://<project>.supabase.co/functions/v1/send-renewal-reminders
 ```
 
+## 7. Broadcast email to all approved members
+
+Admin page: **Admin → Email → Send to members** (`/admin/email/broadcast`). Composes a
+subject + HTML body and sends to every **approved member** (unique email from the `members`
+table) via the configured provider (Resend/SMTP), logging each send to `email_log`.
+
+The composer is pre-filled with the small-scale manufacturing CPD announcement.
+
+Deploy the function (needs the Supabase account that owns the production project —
+currently `cjshrgxpvfstjoapurph`, NOT the personal `sxofeylzjjroljjcgmwf`):
+
+```bash
+supabase functions deploy admin-send-broadcast
+```
+
+Then rebuild + redeploy the website so the new admin page is live
+(`npm run deploy:vercel`, or the cPanel build `npm run build:cpanel`).
+
+Notes:
+
+- Sends in batches of 40 (5 concurrent), retry-safe — already-delivered recipients in the
+  same run are skipped via `email_log` `metadata.run_id`, so a retry never double-sends.
+- `{{name}}` in the body is replaced per recipient.
+
 ## Routes
 
 | Path | Purpose |
