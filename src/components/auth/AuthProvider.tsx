@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase/client";
 
 /**
@@ -7,6 +7,7 @@ import { isSupabaseConfigured, getSupabase } from "@/lib/supabase/client";
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
@@ -17,6 +18,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = sb.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        navigate({ to: "/member/set-password", replace: true });
+        return;
+      }
       if (
         event === "SIGNED_IN" ||
         event === "SIGNED_OUT" ||

@@ -3,8 +3,11 @@ import { getUserClient, getServiceClient } from "../_shared/supabase.ts";
 import { sendBroadcastEmail } from "../_shared/email.ts";
 
 const BATCH_SIZE = 40;
-const CONCURRENCY = 5;
+const CONCURRENCY = 3;
+const SEND_DELAY_MS = 160;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /** Run async work with limited concurrency, preserving input order. */
 async function mapLimit<T, R>(
@@ -18,6 +21,7 @@ async function mapLimit<T, R>(
     while (next < items.length) {
       const i = next++;
       results[i] = await fn(items[i]);
+      await sleep(SEND_DELAY_MS);
     }
   });
   await Promise.all(workers);

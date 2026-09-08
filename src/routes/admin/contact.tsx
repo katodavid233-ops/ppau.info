@@ -367,10 +367,12 @@ function AdminContactPage() {
                 <div>
                   <Label>Notification email (new submissions)</Label>
                   <Input
-                    type="email"
+                    type="text"
+                    placeholder="a@example.com, b@example.com (comma-separated)"
                     value={draft.notification_email ?? ""}
                     onChange={(e) => setDraft({ ...draft, notification_email: e.target.value || null })}
                   />
+                  <p className="text-xs text-zinc-500 mt-1">Separate multiple recipients with a comma.</p>
                 </div>
                 <div>
                   <Label>Form title</Label>

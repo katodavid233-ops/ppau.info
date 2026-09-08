@@ -48,7 +48,7 @@ INSERT INTO contact_page_settings (id, contact_items, social_links, notification
     {"label":"X (Twitter) @ppau_official","href":"https://twitter.com/ppau_official"},
     {"label":"TikTok @ppau_official","href":"https://www.tiktok.com/@ppau_official"}
   ]'::jsonb,
-  'info@ppau.info'
+  'ppausecretary@gmail.com, info@ppau.info'
 ) ON CONFLICT (id) DO NOTHING;
 
 ALTER TABLE contact_page_settings ENABLE ROW LEVEL SECURITY;
