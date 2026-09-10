@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getSupabase } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ApplicationsTable } from "@/components/admin/MembersTable";
 import { exportApplicationsCsv } from "@/lib/admin/applications-export";
-import { Download } from "lucide-react";
+import { Download, Search, X } from "lucide-react";
 import type { ApplicationRow } from "@/components/admin/MembersTable";
 import {
   MembershipTypeToggle,
@@ -17,17 +18,19 @@ import {
 
 type ApplicationsSearch = {
   type?: MembershipTypeFilter;
+  q?: string;
 };
 
 export const Route = createFileRoute("/admin/applications/")({
   validateSearch: (search: Record<string, unknown>): ApplicationsSearch => ({
     type: search.type === "student" ? "student" : "professional",
+    q: typeof search.q === "string" ? search.q : "",
   }),
   component: AdminApplicationsPage,
 });
 
 function AdminApplicationsPage() {
-  const { type } = Route.useSearch();
+  const { type, q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
   const { data: apps, isLoading, refetch } = useQuery({
@@ -45,15 +48,22 @@ function AdminApplicationsPage() {
   });
 
   const counts = useMemo(() => countByMembershipType(apps ?? []), [apps]);
-  const filtered = useMemo(
-    () => filterByMembershipType(apps ?? [], type),
-    [apps, type],
-  );
+  const query = (q ?? "").trim().toLowerCase();
+
+  const filtered = useMemo(() => {
+    const byType = filterByMembershipType(apps ?? [], type);
+    if (!query) return byType;
+    return byType.filter((app) =>
+      [app.full_name, app.email, app.phone, app.membership_number, app.institution_name].some(
+        (field) => field?.toLowerCase().includes(query),
+      ),
+    );
+  }, [apps, type, query]);
 
   const title = type === "professional" ? "Professional applications" : "Student applications";
 
   function setType(next: MembershipTypeFilter) {
-    navigate({ search: { type: next } });
+    navigate({ search: { type: next, q } });
   }
 
   function handleExport() {
@@ -96,8 +106,33 @@ function AdminApplicationsPage() {
         onChange={setType}
         professionalCount={counts.professional}
         studentCount={counts.student}
-        className="mb-6"
+        className="mb-4"
       />
+
+      <div className="relative mb-4 max-w-md">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          value={q ?? ""}
+          placeholder="Search name, email, phone, membership #…"
+          className="rounded-full pl-9 pr-9"
+          onChange={(e) => navigate({ search: { type, q: e.target.value } })}
+        />
+        {q && (
+          <button
+            type="button"
+            aria-label="Clear search"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground"
+            onClick={() => navigate({ search: { type, q: "" } })}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
+        {query && !isLoading && (
+          <p className="text-xs text-muted-foreground mt-1.5">
+            {filtered.length} result{filtered.length === 1 ? "" : "s"} for “{q}”
+          </p>
+        )}
+      </div>
 
       {isLoading && <p>Loading…</p>}
       <ApplicationsTable apps={filtered} hideTypeColumn />
