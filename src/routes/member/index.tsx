@@ -10,7 +10,7 @@ import { fetchMemberDashboard } from "@/lib/membership/api";
 import { MemberProfilePhoto } from "@/components/member/MemberProfilePhoto";
 import { fetchCpdPointsServer } from "@/lib/cpd/server";
 import type { CpdPointsResponse } from "@/lib/cpd/client";
-import { Calendar, CreditCard, FileText, RefreshCw, BookOpen, Clock, Award, Users, GraduationCap, Target } from "lucide-react";
+import { Calendar, Award, Target } from "lucide-react";
 
 const CPD_ANNUAL_TARGET = 30;
 
@@ -54,7 +54,6 @@ function MemberDashboard() {
     (member?.application_id as string | undefined) ?? (application?.id as string | undefined);
   const displayName =
     (member?.full_name as string | undefined) ?? (application?.full_name as string | undefined);
-  const isLapsed = member?.status === "lapsed" || (member?.current_period_end && new Date(member.current_period_end) < new Date());
 
   return (
     <div>
@@ -92,11 +91,6 @@ function MemberDashboard() {
             {member.current_period_end && (
               <p className="flex items-center gap-2"><Calendar className="h-4 w-4" /> Valid until: {member.current_period_end}</p>
             )}
-            {isLapsed && member.membership_type === "professional" && (
-              <Button asChild className="rounded-full mt-4">
-                <Link to="/member/renew"><RefreshCw className="h-4 w-4 mr-2" />Renew membership</Link>
-              </Button>
-            )}
           </CardContent>
         </Card>
       ) : application ? (
@@ -129,58 +123,6 @@ function MemberDashboard() {
         </Card>
       ) : (
         <p className="text-muted-foreground">No membership record found. <Link to="/membership-form" className="text-primary">Apply</Link></p>
-      )}
-
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Button variant="outline" asChild className="h-auto py-4 flex-col">
-          <Link to="/member/application"><FileText className="h-5 w-5 mb-2" />Application</Link>
-        </Button>
-        <Button variant="outline" asChild className="h-auto py-4 flex-col">
-          <Link to="/member/payments"><CreditCard className="h-5 w-5 mb-2" />Payments</Link>
-        </Button>
-        {member?.membership_type === "professional" && (
-          <Button variant="outline" asChild className="h-auto py-4 flex-col">
-            <Link to="/member/renew"><RefreshCw className="h-5 w-5 mb-2" />Renew</Link>
-          </Button>
-        )}
-      </div>
-
-      {member?.status === "active" && (
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-primary" /> CPD / CME Updates
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Upcoming continuing professional development opportunities for members.
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {[
-                { icon: BookOpen, title: "Antimicrobial Stewardship", duration: "4 hours" },
-                { icon: GraduationCap, title: "Pharmacy Law and Ethics", duration: "3 hours" },
-                { icon: Users, title: "Patient Counselling", duration: "5 hours" },
-                { icon: Award, title: "Drug Dispensing Practices", duration: "6 hours" },
-              ].map((course) => (
-                <div key={course.title} className="bg-background rounded-xl border border-border p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="icon-box w-8 h-8 rounded-lg">
-                      <course.icon className="h-3.5 w-3.5" aria-hidden="true" />
-                    </div>
-                    <h3 className="font-bold text-foreground text-sm">{course.title}</h3>
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Clock className="h-3 w-3" aria-hidden="true" /> {course.duration}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Button asChild variant="outline" className="mt-4 rounded-full text-xs">
-              <Link to="/cpd">View all CPD courses</Link>
-            </Button>
-          </CardContent>
-        </Card>
       )}
 
       {member?.membership_number && (

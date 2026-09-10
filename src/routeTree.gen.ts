@@ -38,11 +38,8 @@ import { Route as MembershipFormStudentRouteImport } from './routes/membership-f
 import { Route as MembershipFormProfessionalRouteImport } from './routes/membership-form/professional'
 import { Route as MembershipFormPaymentRouteImport } from './routes/membership-form/payment'
 import { Route as MemberSetPasswordRouteImport } from './routes/member/set-password'
-import { Route as MemberRenewRouteImport } from './routes/member/renew'
-import { Route as MemberPaymentsRouteImport } from './routes/member/payments'
 import { Route as MemberLoginRouteImport } from './routes/member/login'
 import { Route as MemberForgotPasswordRouteImport } from './routes/member/forgot-password'
-import { Route as MemberApplicationRouteImport } from './routes/member/application'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
 import { Route as AdminMigrationRouteImport } from './routes/admin/migration'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
@@ -51,7 +48,6 @@ import { Route as AdminAdminsRouteImport } from './routes/admin/admins'
 import { Route as AdminEmailRouteRouteImport } from './routes/admin/email/route'
 import { Route as AdminApplicationsIndexRouteImport } from './routes/admin/applications/index'
 import { Route as MembershipFormPaymentCallbackRouteImport } from './routes/membership-form/payment.callback'
-import { Route as MemberRenewCallbackRouteImport } from './routes/member/renew.callback'
 import { Route as AdminMembersRejectedRouteImport } from './routes/admin/members.rejected'
 import { Route as AdminMembersAcceptedRouteImport } from './routes/admin/members.accepted'
 import { Route as AdminFormsStudentRouteImport } from './routes/admin/forms.student'
@@ -213,16 +209,6 @@ const MemberSetPasswordRoute = MemberSetPasswordRouteImport.update({
   path: '/set-password',
   getParentRoute: () => MemberRouteRoute,
 } as any)
-const MemberRenewRoute = MemberRenewRouteImport.update({
-  id: '/renew',
-  path: '/renew',
-  getParentRoute: () => MemberRouteRoute,
-} as any)
-const MemberPaymentsRoute = MemberPaymentsRouteImport.update({
-  id: '/payments',
-  path: '/payments',
-  getParentRoute: () => MemberRouteRoute,
-} as any)
 const MemberLoginRoute = MemberLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -231,11 +217,6 @@ const MemberLoginRoute = MemberLoginRouteImport.update({
 const MemberForgotPasswordRoute = MemberForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
-  getParentRoute: () => MemberRouteRoute,
-} as any)
-const MemberApplicationRoute = MemberApplicationRouteImport.update({
-  id: '/application',
-  path: '/application',
   getParentRoute: () => MemberRouteRoute,
 } as any)
 const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
@@ -279,11 +260,6 @@ const MembershipFormPaymentCallbackRoute =
     path: '/callback',
     getParentRoute: () => MembershipFormPaymentRoute,
   } as any)
-const MemberRenewCallbackRoute = MemberRenewCallbackRouteImport.update({
-  id: '/callback',
-  path: '/callback',
-  getParentRoute: () => MemberRenewRoute,
-} as any)
 const AdminMembersRejectedRoute = AdminMembersRejectedRouteImport.update({
   id: '/members/rejected',
   path: '/members/rejected',
@@ -360,11 +336,8 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/admin/migration': typeof AdminMigrationRoute
   '/admin/payments': typeof AdminPaymentsRoute
-  '/member/application': typeof MemberApplicationRoute
   '/member/forgot-password': typeof MemberForgotPasswordRoute
   '/member/login': typeof MemberLoginRoute
-  '/member/payments': typeof MemberPaymentsRoute
-  '/member/renew': typeof MemberRenewRouteWithChildren
   '/member/set-password': typeof MemberSetPasswordRoute
   '/membership-form/payment': typeof MembershipFormPaymentRouteWithChildren
   '/membership-form/professional': typeof MembershipFormProfessionalRoute
@@ -386,7 +359,6 @@ export interface FileRoutesByFullPath {
   '/admin/forms/student': typeof AdminFormsStudentRoute
   '/admin/members/accepted': typeof AdminMembersAcceptedRoute
   '/admin/members/rejected': typeof AdminMembersRejectedRoute
-  '/member/renew/callback': typeof MemberRenewCallbackRoute
   '/membership-form/payment/callback': typeof MembershipFormPaymentCallbackRoute
   '/admin/applications/': typeof AdminApplicationsIndexRoute
   '/admin/email/templates/$slug': typeof AdminEmailTemplatesSlugRoute
@@ -412,11 +384,8 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/migration': typeof AdminMigrationRoute
   '/admin/payments': typeof AdminPaymentsRoute
-  '/member/application': typeof MemberApplicationRoute
   '/member/forgot-password': typeof MemberForgotPasswordRoute
   '/member/login': typeof MemberLoginRoute
-  '/member/payments': typeof MemberPaymentsRoute
-  '/member/renew': typeof MemberRenewRouteWithChildren
   '/member/set-password': typeof MemberSetPasswordRoute
   '/membership-form/payment': typeof MembershipFormPaymentRouteWithChildren
   '/membership-form/professional': typeof MembershipFormProfessionalRoute
@@ -437,7 +406,6 @@ export interface FileRoutesByTo {
   '/admin/forms/student': typeof AdminFormsStudentRoute
   '/admin/members/accepted': typeof AdminMembersAcceptedRoute
   '/admin/members/rejected': typeof AdminMembersRejectedRoute
-  '/member/renew/callback': typeof MemberRenewCallbackRoute
   '/membership-form/payment/callback': typeof MembershipFormPaymentCallbackRoute
   '/admin/applications': typeof AdminApplicationsIndexRoute
   '/admin/email/templates/$slug': typeof AdminEmailTemplatesSlugRoute
@@ -467,11 +435,8 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/admin/migration': typeof AdminMigrationRoute
   '/admin/payments': typeof AdminPaymentsRoute
-  '/member/application': typeof MemberApplicationRoute
   '/member/forgot-password': typeof MemberForgotPasswordRoute
   '/member/login': typeof MemberLoginRoute
-  '/member/payments': typeof MemberPaymentsRoute
-  '/member/renew': typeof MemberRenewRouteWithChildren
   '/member/set-password': typeof MemberSetPasswordRoute
   '/membership-form/payment': typeof MembershipFormPaymentRouteWithChildren
   '/membership-form/professional': typeof MembershipFormProfessionalRoute
@@ -493,7 +458,6 @@ export interface FileRoutesById {
   '/admin/forms/student': typeof AdminFormsStudentRoute
   '/admin/members/accepted': typeof AdminMembersAcceptedRoute
   '/admin/members/rejected': typeof AdminMembersRejectedRoute
-  '/member/renew/callback': typeof MemberRenewCallbackRoute
   '/membership-form/payment/callback': typeof MembershipFormPaymentCallbackRoute
   '/admin/applications/': typeof AdminApplicationsIndexRoute
   '/admin/email/templates/$slug': typeof AdminEmailTemplatesSlugRoute
@@ -524,11 +488,8 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/migration'
     | '/admin/payments'
-    | '/member/application'
     | '/member/forgot-password'
     | '/member/login'
-    | '/member/payments'
-    | '/member/renew'
     | '/member/set-password'
     | '/membership-form/payment'
     | '/membership-form/professional'
@@ -550,7 +511,6 @@ export interface FileRouteTypes {
     | '/admin/forms/student'
     | '/admin/members/accepted'
     | '/admin/members/rejected'
-    | '/member/renew/callback'
     | '/membership-form/payment/callback'
     | '/admin/applications/'
     | '/admin/email/templates/$slug'
@@ -576,11 +536,8 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/migration'
     | '/admin/payments'
-    | '/member/application'
     | '/member/forgot-password'
     | '/member/login'
-    | '/member/payments'
-    | '/member/renew'
     | '/member/set-password'
     | '/membership-form/payment'
     | '/membership-form/professional'
@@ -601,7 +558,6 @@ export interface FileRouteTypes {
     | '/admin/forms/student'
     | '/admin/members/accepted'
     | '/admin/members/rejected'
-    | '/member/renew/callback'
     | '/membership-form/payment/callback'
     | '/admin/applications'
     | '/admin/email/templates/$slug'
@@ -630,11 +586,8 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/migration'
     | '/admin/payments'
-    | '/member/application'
     | '/member/forgot-password'
     | '/member/login'
-    | '/member/payments'
-    | '/member/renew'
     | '/member/set-password'
     | '/membership-form/payment'
     | '/membership-form/professional'
@@ -656,7 +609,6 @@ export interface FileRouteTypes {
     | '/admin/forms/student'
     | '/admin/members/accepted'
     | '/admin/members/rejected'
-    | '/member/renew/callback'
     | '/membership-form/payment/callback'
     | '/admin/applications/'
     | '/admin/email/templates/$slug'
@@ -887,20 +839,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemberSetPasswordRouteImport
       parentRoute: typeof MemberRouteRoute
     }
-    '/member/renew': {
-      id: '/member/renew'
-      path: '/renew'
-      fullPath: '/member/renew'
-      preLoaderRoute: typeof MemberRenewRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
-    '/member/payments': {
-      id: '/member/payments'
-      path: '/payments'
-      fullPath: '/member/payments'
-      preLoaderRoute: typeof MemberPaymentsRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
     '/member/login': {
       id: '/member/login'
       path: '/login'
@@ -913,13 +851,6 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/member/forgot-password'
       preLoaderRoute: typeof MemberForgotPasswordRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
-    '/member/application': {
-      id: '/member/application'
-      path: '/application'
-      fullPath: '/member/application'
-      preLoaderRoute: typeof MemberApplicationRouteImport
       parentRoute: typeof MemberRouteRoute
     }
     '/admin/payments': {
@@ -977,13 +908,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/membership-form/payment/callback'
       preLoaderRoute: typeof MembershipFormPaymentCallbackRouteImport
       parentRoute: typeof MembershipFormPaymentRoute
-    }
-    '/member/renew/callback': {
-      id: '/member/renew/callback'
-      path: '/callback'
-      fullPath: '/member/renew/callback'
-      preLoaderRoute: typeof MemberRenewCallbackRouteImport
-      parentRoute: typeof MemberRenewRoute
     }
     '/admin/members/rejected': {
       id: '/admin/members/rejected'
@@ -1126,34 +1050,16 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
   AdminRouteRouteChildren,
 )
 
-interface MemberRenewRouteChildren {
-  MemberRenewCallbackRoute: typeof MemberRenewCallbackRoute
-}
-
-const MemberRenewRouteChildren: MemberRenewRouteChildren = {
-  MemberRenewCallbackRoute: MemberRenewCallbackRoute,
-}
-
-const MemberRenewRouteWithChildren = MemberRenewRoute._addFileChildren(
-  MemberRenewRouteChildren,
-)
-
 interface MemberRouteRouteChildren {
-  MemberApplicationRoute: typeof MemberApplicationRoute
   MemberForgotPasswordRoute: typeof MemberForgotPasswordRoute
   MemberLoginRoute: typeof MemberLoginRoute
-  MemberPaymentsRoute: typeof MemberPaymentsRoute
-  MemberRenewRoute: typeof MemberRenewRouteWithChildren
   MemberSetPasswordRoute: typeof MemberSetPasswordRoute
   MemberIndexRoute: typeof MemberIndexRoute
 }
 
 const MemberRouteRouteChildren: MemberRouteRouteChildren = {
-  MemberApplicationRoute: MemberApplicationRoute,
   MemberForgotPasswordRoute: MemberForgotPasswordRoute,
   MemberLoginRoute: MemberLoginRoute,
-  MemberPaymentsRoute: MemberPaymentsRoute,
-  MemberRenewRoute: MemberRenewRouteWithChildren,
   MemberSetPasswordRoute: MemberSetPasswordRoute,
   MemberIndexRoute: MemberIndexRoute,
 }
