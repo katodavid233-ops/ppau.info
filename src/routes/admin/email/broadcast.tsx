@@ -36,7 +36,8 @@ const DEFAULT_SUBJECT = "CAN UGX 500,000 START YOUR CAREER IN MANUFACTURING?";
 const DEFAULT_BODY = `<p>As resolved at the 2025 PPAU Annual General Meeting, we are taking practical steps to promote small-scale manufacturing and contribute to the growth of Uganda&rsquo;s local manufacturing industry.</p>
 <p>Join us for our forthcoming 4-CPD-point session:</p>
 <p><strong>SMALL-SCALE MANUFACTURING OF HERBAL CREAM, HERBAL SYRUP &amp; SANITIZERS</strong></p>
-<p>&#128197; <strong>Saturday, 12 September 2026</strong><br />&#128336; <strong>10:00 AM</strong></p>
+<p>&#128197; <strong>Sunday, 13 September 2026</strong><br />&#128336; <strong>4:00 PM &ndash; 5:30 PM (UTC)</strong></p>
+<p>Join on Google Meet: <a href="https://meet.google.com/jbi-xbua-gcy">https://meet.google.com/jbi-xbua-gcy</a></p>
 <p>Learn from an experienced practitioner about the practical opportunities, processes and considerations involved in starting small-scale production.</p>
 <p>We are starting with herbal creams, herbal syrups and sanitizers, with more products to come.</p>
 <p><strong>Start small. Learn. Manufacture. Grow.</strong></p>
