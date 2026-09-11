@@ -10,7 +10,7 @@ import { fetchMemberDashboard } from "@/lib/membership/api";
 import { MemberProfilePhoto } from "@/components/member/MemberProfilePhoto";
 import { fetchCpdPointsServer } from "@/lib/cpd/server";
 import type { CpdPointsResponse } from "@/lib/cpd/client";
-import { Calendar, Award, Target } from "lucide-react";
+import { Calendar, CalendarDays, Award, Target, Megaphone, Briefcase, Vote } from "lucide-react";
 
 const CPD_ANNUAL_TARGET = 30;
 
@@ -192,6 +192,80 @@ function MemberDashboard() {
           </CardContent>
         </Card>
       )}
+
+      <section aria-label="Member information" className="mt-8 grid gap-6 sm:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Megaphone className="h-5 w-5 text-primary" /> Updates
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <div className="font-medium">Recent association updates and announcements will appear here.</div>
+                <div className="text-xs text-muted-foreground mt-0.5">
+                  For example: committee reports, circulars, and notices.
+                </div>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 text-primary" /> Upcoming Events
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <div className="font-medium">Upcoming CPD sessions, meetings and events will appear here.</div>
+                <div className="text-xs text-muted-foreground mt-0.5">
+                  For example: manufacturing CPD session, Pharmacy Week, and the AGM.
+                </div>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Briefcase className="h-5 w-5 text-primary" /> Opportunities
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <div className="font-medium">Member opportunities such as training, grants and partnerships will appear here.</div>
+                <div className="text-xs text-muted-foreground mt-0.5">
+                  For example: small-scale manufacturing support and CPD provider openings.
+                </div>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Vote className="h-5 w-5 text-primary" /> Elections
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <div className="font-medium">PPAU elections information will appear here.</div>
+                <div className="text-xs text-muted-foreground mt-0.5">
+                  For example: positions, timelines, and candidate statements.
+                </div>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
     </div>
   );
 }
