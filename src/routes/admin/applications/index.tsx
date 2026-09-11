@@ -1,12 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSupabase } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApplicationsTable } from "@/components/admin/MembersTable";
 import { exportApplicationsCsv } from "@/lib/admin/applications-export";
+import { deleteApplication } from "@/lib/membership/api";
 import { Download, Search, X } from "lucide-react";
 import type { ApplicationRow } from "@/components/admin/MembersTable";
 import {
@@ -32,6 +33,8 @@ export const Route = createFileRoute("/admin/applications/")({
 function AdminApplicationsPage() {
   const { type, q } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+  const queryClient = useQueryClient();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const { data: apps, isLoading, refetch } = useQuery({
     queryKey: ["admin-applications"],
@@ -73,6 +76,27 @@ function AdminApplicationsPage() {
     }
     exportApplicationsCsv(filtered, type);
     toast.success(`Exported ${filtered.length} application(s)`);
+  }
+
+  async function handleDelete(applicationId: string) {
+    setDeletingId(applicationId);
+    try {
+      const sb = getSupabase();
+      const {
+        data: { session },
+      } = await sb.auth.getSession();
+      if (!session?.access_token) throw new Error("Not signed in");
+      await deleteApplication(applicationId, session.access_token);
+      toast.success("Application deleted");
+      await queryClient.invalidateQueries({ queryKey: ["admin-applications"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-accepted"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-rejected"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-dashboard-stats"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Delete failed");
+    } finally {
+      setDeletingId(null);
+    }
   }
 
   return (
@@ -135,7 +159,13 @@ function AdminApplicationsPage() {
       </div>
 
       {isLoading && <p>Loading…</p>}
-      <ApplicationsTable apps={filtered} hideTypeColumn />
+      <ApplicationsTable
+        apps={filtered}
+        hideTypeColumn
+        allowDelete
+        deletingId={deletingId}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }

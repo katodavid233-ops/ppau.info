@@ -265,6 +265,14 @@ export async function adminAction(
   );
 }
 
+export async function deleteApplication(application_id: string, accessToken: string) {
+  return invokeFunction<{ success: boolean; deleted: Record<string, number> }>(
+    "admin-delete-application",
+    { application_id },
+    `Bearer ${accessToken}`,
+  );
+}
+
 export async function getDocumentUrl(document_id: string, accessToken: string) {
   return invokeFunction<{ url: string }>(
     "get-document-url",

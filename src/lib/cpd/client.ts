@@ -13,6 +13,8 @@ export type CpdPointItem = {
 export type CpdPointsResponse = {
   ppau_reg_no: string;
   total_points: number;
+  target: number;
+  percent: number;
   count: number;
   items: CpdPointItem[];
 };

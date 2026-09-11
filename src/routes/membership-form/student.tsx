@@ -191,7 +191,12 @@ function StudentFormPage() {
                 <FormField control={form.control} name="full_name" render={({ field }) => (
                   <FormItem>
                     <FormFieldLabel fields={fields} name="full_name" fallback="Full Name" />
-                    <FormControl><Input {...field} /></FormControl>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />

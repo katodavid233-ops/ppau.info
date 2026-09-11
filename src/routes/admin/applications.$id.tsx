@@ -1,9 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getSupabase } from "@/lib/supabase/client";
-import { adminAction, getDocumentUrl, resendPaymentEmail } from "@/lib/membership/api";
+import { adminAction, deleteApplication, getDocumentUrl, resendPaymentEmail } from "@/lib/membership/api";
 import { fetchFormConfig } from "@/lib/admin/forms";
 import {
   applicationMetadataRows,
@@ -11,6 +11,7 @@ import {
 } from "@/lib/membership/application-display";
 import { ApplicationFormAnswers } from "@/components/admin/ApplicationFormAnswers";
 import { ApproveWithoutPaymentButton } from "@/components/admin/ApproveWithoutPaymentButton";
+import { DeleteApplicationButton } from "@/components/admin/DeleteApplicationButton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,6 +31,7 @@ type AppDocument = {
 
 function ApplicationDetailPage() {
   const { id } = Route.useParams();
+  const navigate = useNavigate({ from: Route.fullPath });
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState<string | null>(null);
@@ -100,6 +102,24 @@ function ApplicationDetailPage() {
       toast.success(`Payment email sent to ${result.email}`);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Failed to send email");
+    } finally {
+      setLoading(null);
+    }
+  }
+
+  async function handleDelete() {
+    setLoading("delete");
+    try {
+      const token = await getAccessToken();
+      await deleteApplication(id, token);
+      toast.success("Application deleted");
+      queryClient.invalidateQueries({ queryKey: ["admin-applications"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-accepted"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-rejected"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-dashboard-stats"] });
+      navigate({ to: "/admin/applications" });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Delete failed");
     } finally {
       setLoading(null);
     }
@@ -188,6 +208,11 @@ function ApplicationDetailPage() {
               onConfirm={(reason) => runAction("approve_without_payment", reason)}
             />
           )}
+          <DeleteApplicationButton
+            disabled={!!loading}
+            loading={loading === "delete"}
+            onConfirm={handleDelete}
+          />
         </div>
       </div>
 

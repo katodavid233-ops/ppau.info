@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i]!;
-      const fullName = row[nameIdx]?.trim();
+      const fullName = row[nameIdx]?.trim().toUpperCase();
       if (!fullName) continue;
 
       const legacyReg = row[regIdx]?.trim() || null;

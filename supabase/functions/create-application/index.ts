@@ -19,8 +19,8 @@ Deno.serve(async (req) => {
       .from("membership_applications")
       .insert({
         membership_type,
-        email,
-        full_name,
+        email: String(email).trim().toLowerCase(),
+        full_name: String(full_name).trim().toUpperCase(),
         status: "draft",
         payment_status,
       })

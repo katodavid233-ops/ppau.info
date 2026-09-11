@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RejectMemberButton } from "@/components/admin/RejectMemberButton";
+import { DeleteApplicationButton } from "@/components/admin/DeleteApplicationButton";
 import {
   Table,
   TableBody,
@@ -47,6 +48,12 @@ type RejectHandlers = {
   onReject?: (applicationId: string, notes: string) => void;
 };
 
+type DeleteHandlers = {
+  allowDelete?: boolean;
+  deletingId?: string | null;
+  onDelete?: (applicationId: string) => void;
+};
+
 export function ApplicationsTable({
   apps,
   showNotes,
@@ -54,7 +61,11 @@ export function ApplicationsTable({
   allowReject,
   rejectingId,
   onReject,
-}: { apps: ApplicationRow[]; showNotes?: boolean; hideTypeColumn?: boolean } & RejectHandlers) {
+  allowDelete,
+  deletingId,
+  onDelete,
+}: { apps: ApplicationRow[]; showNotes?: boolean; hideTypeColumn?: boolean } & RejectHandlers &
+  DeleteHandlers) {
   if (!apps.length) {
     return <p className="text-muted-foreground text-sm py-8 text-center">No records found.</p>;
   }
@@ -118,6 +129,12 @@ export function ApplicationsTable({
                   <RejectMemberButton
                     loading={rejectingId === app.id}
                     onConfirm={(notes) => onReject(app.id, notes)}
+                  />
+                )}
+                {allowDelete && onDelete && (
+                  <DeleteApplicationButton
+                    loading={deletingId === app.id}
+                    onConfirm={() => onDelete(app.id)}
                   />
                 )}
               </TableCell>

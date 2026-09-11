@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
         password,
         email_confirm: true,
         app_metadata: { role: "admin" },
-        user_metadata: full_name ? { full_name } : {},
+        user_metadata: full_name ? { full_name: String(full_name).trim().toUpperCase() } : {},
       });
       if (error) return jsonResponse({ error: error.message }, 400);
       return jsonResponse({ user: { id: data.user?.id, email: data.user?.email } });

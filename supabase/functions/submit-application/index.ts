@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
     const supabase = getServiceClient();
     const { data: existing } = await supabase
       .from("membership_applications")
-      .select("membership_type, payment_status")
+      .select("membership_type, payment_status, full_name")
       .eq("id", application_id)
       .single();
 
@@ -51,6 +51,9 @@ Deno.serve(async (req) => {
       ...fields,
       status,
       ...(membership_number ? { membership_number } : {}),
+      full_name: fields.full_name
+        ? String(fields.full_name).trim().toUpperCase()
+        : existing.full_name,
       declaration_accepted_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };

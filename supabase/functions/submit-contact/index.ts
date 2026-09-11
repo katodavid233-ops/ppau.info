@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json();
-    const full_name = String(body.full_name ?? "").trim();
+    const full_name = String(body.full_name ?? "").trim().toUpperCase();
     const email = String(body.email ?? "").trim();
     const phone = body.phone ? String(body.phone).trim() : null;
     const subject = String(body.subject ?? "").trim();

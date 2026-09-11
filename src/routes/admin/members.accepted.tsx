@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { getSupabase } from "@/lib/supabase/client";
-import { adminAction } from "@/lib/membership/api";
+import { adminAction, deleteApplication } from "@/lib/membership/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ApplicationsTable, MembersTable } from "@/components/admin/MembersTable";
@@ -32,6 +32,7 @@ function AcceptedMembersPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const queryClient = useQueryClient();
   const [rejectingId, setRejectingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [listKind, setListKind] = useState<"members" | "applications">("members");
 
   const { data, isLoading, refetch } = useQuery({
@@ -100,6 +101,27 @@ function AcceptedMembersPage() {
     }
   }
 
+  async function handleDelete(applicationId: string) {
+    setDeletingId(applicationId);
+    try {
+      const sb = getSupabase();
+      const {
+        data: { session },
+      } = await sb.auth.getSession();
+      if (!session?.access_token) throw new Error("Not signed in");
+      await deleteApplication(applicationId, session.access_token);
+      toast.success("Application deleted");
+      await queryClient.invalidateQueries({ queryKey: ["admin-accepted"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-rejected"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-applications"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-dashboard-stats"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Delete failed");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -150,6 +172,9 @@ function AcceptedMembersPage() {
               allowReject
               rejectingId={rejectingId}
               onReject={handleReject}
+              allowDelete
+              deletingId={deletingId}
+              onDelete={handleDelete}
             />
           </TabsContent>
         </Tabs>

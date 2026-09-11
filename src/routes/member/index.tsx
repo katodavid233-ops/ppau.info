@@ -157,18 +157,28 @@ function MemberDashboard() {
               </p>
             ) : (
               <>
-                <div className="flex flex-wrap items-center gap-6 mb-6">
+                <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
                   <div>
                     <div className="text-3xl font-bold text-primary">{cpdData.total_points}</div>
                     <div className="text-xs text-muted-foreground">Accumulative CPD points</div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Target className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                    <span className="text-muted-foreground">
-                      {Math.min(100, Math.round((cpdData.total_points / CPD_ANNUAL_TARGET) * 100))}%
-                      of {CPD_ANNUAL_TARGET}-point annual target
-                    </span>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Target className="h-4 w-4" aria-hidden="true" />
+                    <span>Annual target: {cpdData.target ?? CPD_ANNUAL_TARGET} points</span>
                   </div>
+                </div>
+                <div
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={cpdData.target ?? CPD_ANNUAL_TARGET}
+                  aria-valuenow={cpdData.total_points}
+                  aria-valuetext={`${cpdData.percent ?? 0}% of annual target`}
+                  className="h-3 w-full overflow-hidden rounded-full bg-primary/20"
+                >
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{ width: `${cpdData.percent ?? 0}%`, background: "linear-gradient(90deg, #0b6bcb, #3b82f6)" }}
+                  />
                 </div>
                 <ul className="divide-y divide-border rounded-xl border border-border overflow-hidden">
                   {cpdData.items.map((item, i) => (

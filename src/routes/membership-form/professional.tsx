@@ -200,7 +200,10 @@ function ProfessionalFormPage() {
                     <FormItem>
                       <FormFieldLabel fields={fields} name="full_name" fallback="Full Name" />
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          {...field}
+                          onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
