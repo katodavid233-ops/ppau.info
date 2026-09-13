@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getSupabase } from "@/lib/supabase/client";
@@ -8,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchMemberDashboard } from "@/lib/membership/api";
 import { MemberProfilePhoto } from "@/components/member/MemberProfilePhoto";
+import { MemberProfileDialog } from "@/components/member/MemberProfileDialog";
 import { fetchCpdPointsServer } from "@/lib/cpd/server";
 import type { CpdPointsResponse } from "@/lib/cpd/client";
 import { Calendar, CalendarDays, Award, Target, Megaphone, Briefcase, Vote } from "lucide-react";
@@ -20,23 +22,32 @@ export const Route = createFileRoute("/member/")({
 
 function MemberDashboard() {
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  useEffect(() => {
+    getSupabase()
+      .auth.getSession()
+      .then(({ data: { session } }) => setAccessToken(session?.access_token ?? null));
+  }, []);
   const { data, isLoading } = useQuery({
     queryKey: ["member-dashboard"],
     queryFn: async () => {
       const sb = getSupabase();
-      const { data: { session } } = await sb.auth.getSession();
+      const {
+        data: { session },
+      } = await sb.auth.getSession();
       if (!session) throw new Error("Not logged in");
       return fetchMemberDashboard(session.access_token);
     },
   });
-  const { data: cpdData, isLoading: cpdLoading } = useQuery<
-    CpdPointsResponse | null | undefined
-  >({
+  const { data: cpdData, isLoading: cpdLoading } = useQuery<CpdPointsResponse | null | undefined>({
     queryKey: ["member-cpd-points", data?.member?.membership_number as string | undefined],
     queryFn: async () => {
       const reg = data?.member?.membership_number as string | undefined;
       if (!reg) return undefined;
-      return (await fetchCpdPointsServer({ data: { reg } })) as CpdPointsResponse | null | undefined;
+      return (await fetchCpdPointsServer({ data: { reg } })) as
+        | CpdPointsResponse
+        | null
+        | undefined;
     },
     enabled: !!data?.member?.membership_number,
   });
@@ -59,18 +70,16 @@ function MemberDashboard() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Member dashboard</h1>
-        <Button variant="ghost" onClick={logout}>Sign out</Button>
+        <Button variant="ghost" onClick={logout}>
+          Sign out
+        </Button>
       </div>
 
       {member ? (
         <Card className="mb-6 border-primary/30">
           <CardHeader>
             <div className="flex flex-wrap items-center gap-4">
-              <MemberProfilePhoto
-                applicationId={applicationId}
-                fullName={displayName}
-                size="lg"
-              />
+              <MemberProfilePhoto applicationId={applicationId} fullName={displayName} size="lg" />
               <div className="min-w-0 flex-1">
                 <CardTitle className="flex flex-wrap items-center gap-2">
                   {member.full_name}
@@ -83,30 +92,45 @@ function MemberDashboard() {
             </div>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <p><strong>Membership number:</strong> {member.membership_number}</p>
-            <p><strong>Type:</strong> {member.membership_type}</p>
+            <p>
+              <strong>Membership number:</strong> {member.membership_number}
+            </p>
+            <p>
+              <strong>Type:</strong> {member.membership_type}
+            </p>
             {member.ahpc_registration_number && (
-              <p><strong>AHPC Registration No.:</strong> {member.ahpc_registration_number}</p>
+              <p>
+                <strong>AHPC Registration No.:</strong> {member.ahpc_registration_number}
+              </p>
             )}
             {member.current_period_end && (
-              <p className="flex items-center gap-2"><Calendar className="h-4 w-4" /> Valid until: {member.current_period_end}</p>
+              <p className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" /> Valid until: {member.current_period_end}
+              </p>
             )}
           </CardContent>
+          {accessToken && (
+            <div className="px-6 pb-6">
+              <MemberProfileDialog
+                member={member}
+                application={application}
+                accessToken={accessToken}
+              />
+            </div>
+          )}
         </Card>
       ) : application ? (
         <Card className="mb-6">
           <CardHeader>
             <div className="flex flex-wrap items-center gap-4">
-              <MemberProfilePhoto
-                applicationId={applicationId}
-                fullName={displayName}
-                size="lg"
-              />
+              <MemberProfilePhoto applicationId={applicationId} fullName={displayName} size="lg" />
               <CardTitle>Application status</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
-            <p>Status: <Badge>{application.status}</Badge></p>
+            <p>
+              Status: <Badge>{application.status}</Badge>
+            </p>
             {application.membership_number && (
               <p className="mt-2">
                 <strong>Membership number:</strong>{" "}
@@ -114,15 +138,23 @@ function MemberDashboard() {
               </p>
             )}
             <p className="text-muted-foreground mt-2">Payment: {application.payment_status}</p>
-            {application.status === "pending_payment" && application.membership_type === "professional" && (
-              <Button asChild className="mt-4 rounded-full">
-                <Link to="/membership-form/payment" search={{ application_id: application.id }}>Complete payment</Link>
-              </Button>
-            )}
+            {application.status === "pending_payment" &&
+              application.membership_type === "professional" && (
+                <Button asChild className="mt-4 rounded-full">
+                  <Link to="/membership-form/payment" search={{ application_id: application.id }}>
+                    Complete payment
+                  </Link>
+                </Button>
+              )}
           </CardContent>
         </Card>
       ) : (
-        <p className="text-muted-foreground">No membership record found. <Link to="/membership-form" className="text-primary">Apply</Link></p>
+        <p className="text-muted-foreground">
+          No membership record found.{" "}
+          <Link to="/membership-form" className="text-primary">
+            Apply
+          </Link>
+        </p>
       )}
 
       {member?.membership_number && (
@@ -177,23 +209,35 @@ function MemberDashboard() {
                 >
                   <div
                     className="h-full rounded-full transition-all"
-                    style={{ width: `${cpdData.percent ?? 0}%`, background: "linear-gradient(90deg, #0b6bcb, #3b82f6)" }}
+                    style={{
+                      width: `${cpdData.percent ?? 0}%`,
+                      background: "linear-gradient(90deg, #0b6bcb, #3b82f6)",
+                    }}
                   />
                 </div>
                 <ul className="divide-y divide-border rounded-xl border border-border overflow-hidden">
                   {cpdData.items.map((item, i) => (
-                    <li key={i} className="flex items-start justify-between gap-3 bg-background px-4 py-3 text-sm">
+                    <li
+                      key={i}
+                      className="flex items-start justify-between gap-3 bg-background px-4 py-3 text-sm"
+                    >
                       <div className="min-w-0">
                         <div className="font-medium text-foreground truncate">{item.title}</div>
                         <div className="text-xs text-muted-foreground mt-0.5">
-                          {item.source === "event" ? "Event / Session" : item.source === "self_learning" ? "Self-Learning" : "Module"}
-                          {item.event_date ? ` · ${item.event_date}` : item.date ? ` · ${String(item.date).slice(0, 10)}` : ""}
+                          {item.source === "event"
+                            ? "Event / Session"
+                            : item.source === "self_learning"
+                              ? "Self-Learning"
+                              : "Module"}
+                          {item.event_date
+                            ? ` · ${item.event_date}`
+                            : item.date
+                              ? ` · ${String(item.date).slice(0, 10)}`
+                              : ""}
                           {item.certificate_code ? ` · ${item.certificate_code}` : ""}
                         </div>
                       </div>
-                      <div className="font-semibold text-primary shrink-0">
-                        +{item.points} pts
-                      </div>
+                      <div className="font-semibold text-primary shrink-0">+{item.points} pts</div>
                     </li>
                   ))}
                 </ul>
@@ -213,7 +257,9 @@ function MemberDashboard() {
           <CardContent>
             <ul className="space-y-3 text-sm">
               <li>
-                <div className="font-medium">Recent association updates and announcements will appear here.</div>
+                <div className="font-medium">
+                  Recent association updates and announcements will appear here.
+                </div>
                 <div className="text-xs text-muted-foreground mt-0.5">
                   For example: committee reports, circulars, and notices.
                 </div>
@@ -231,7 +277,9 @@ function MemberDashboard() {
           <CardContent>
             <ul className="space-y-3 text-sm">
               <li>
-                <div className="font-medium">Upcoming CPD sessions, meetings and events will appear here.</div>
+                <div className="font-medium">
+                  Upcoming CPD sessions, meetings and events will appear here.
+                </div>
                 <div className="text-xs text-muted-foreground mt-0.5">
                   For example: manufacturing CPD session, Pharmacy Week, and the AGM.
                 </div>
@@ -249,7 +297,9 @@ function MemberDashboard() {
           <CardContent>
             <ul className="space-y-3 text-sm">
               <li>
-                <div className="font-medium">Member opportunities such as training, grants and partnerships will appear here.</div>
+                <div className="font-medium">
+                  Member opportunities such as training, grants and partnerships will appear here.
+                </div>
                 <div className="text-xs text-muted-foreground mt-0.5">
                   For example: small-scale manufacturing support and CPD provider openings.
                 </div>

@@ -73,10 +73,7 @@ export async function createApplication(
   });
 }
 
-export async function submitApplication(
-  application_id: string,
-  payload: Record<string, unknown>,
-) {
+export async function submitApplication(application_id: string, payload: Record<string, unknown>) {
   const { declaration: _d, ...fields } = payload;
   return invokeFunction<{ success: boolean; status: string; membership_number?: string }>(
     "submit-application",
@@ -134,11 +131,7 @@ async function notifyPaymentProofUploaded(application_id: string, document_type:
   await invokeFunction<{ success: boolean }>("record-payment-proof", { application_id });
 }
 
-export async function uploadDocument(
-  application_id: string,
-  document_type: string,
-  file: File,
-) {
+export async function uploadDocument(application_id: string, document_type: string, file: File) {
   const sb = getSupabase();
   const path = `${application_id}/${document_type}/${Date.now()}-${file.name}`;
 
@@ -181,10 +174,10 @@ export async function uploadDocument(
 }
 
 export async function requestMemberPortalAccess(email: string, redirectTo?: string) {
-  return invokeFunction<{ success: boolean; message?: string }>(
-    "request-member-portal-access",
-    { email, redirect_to: redirectTo },
-  );
+  return invokeFunction<{ success: boolean; message?: string }>("request-member-portal-access", {
+    email,
+    redirect_to: redirectTo,
+  });
 }
 
 export async function resendPaymentEmail(application_id: string, accessToken: string) {
@@ -265,6 +258,30 @@ export async function adminAction(
   );
 }
 
+export type MemberProfileUpdate = {
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  physical_address?: string;
+  region?: string;
+  nationality?: string;
+  gender?: string;
+  date_of_birth?: string;
+  ahpc_registration_number?: string;
+  practice_area?: string;
+  sector?: string;
+  government_facility_name?: string;
+  work_address?: string;
+};
+
+export async function updateMemberProfile(fields: MemberProfileUpdate, accessToken: string) {
+  return invokeFunction<{ success: boolean; updated: string[] }>(
+    "update-member-profile",
+    { ...fields },
+    `Bearer ${accessToken}`,
+  );
+}
+
 export async function deleteApplication(application_id: string, accessToken: string) {
   return invokeFunction<{ success: boolean; deleted: Record<string, number> }>(
     "admin-delete-application",
@@ -282,11 +299,7 @@ export async function getDocumentUrl(document_id: string, accessToken: string) {
 }
 
 export async function linkMemberAccount(accessToken: string) {
-  return invokeFunction<{ success: boolean }>(
-    "link-member-account",
-    {},
-    `Bearer ${accessToken}`,
-  );
+  return invokeFunction<{ success: boolean }>("link-member-account", {}, `Bearer ${accessToken}`);
 }
 
 export async function importLegacyCsv(csv_text: string, accessToken: string) {
@@ -333,7 +346,9 @@ export async function fetchApplication(id: string, accessToken: string) {
 
 export async function fetchMemberDashboard(accessToken: string) {
   const sb = getSupabase();
-  const { data: { user } } = await sb.auth.getUser();
+  const {
+    data: { user },
+  } = await sb.auth.getUser();
   if (!user) throw new Error("Not authenticated");
 
   const { data: member } = await sb
