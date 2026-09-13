@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublicFormConfig } from "@/lib/admin/forms";
@@ -37,7 +37,7 @@ import {
 } from "@/lib/membership/schemas";
 import { DEFAULT_PROFESSIONAL_CONFIG } from "@/lib/membership/form-config-defaults";
 import { fieldsForStep, isFieldEnabled } from "@/lib/membership/form-config-utils";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { isSupabaseConfigured, getSupabase } from "@/lib/supabase/client";
 
 import { pageHead } from "@/lib/seo";
 
@@ -63,11 +63,63 @@ function ProfessionalFormPage() {
   const steps = formConfig?.steps_config ?? DEFAULT_PROFESSIONAL_CONFIG.steps_config;
   const documents = formConfig?.documents_config ?? DEFAULT_PROFESSIONAL_CONFIG.documents_config;
 
-  const [step, setStep] = useState(0);
-  const [uploadedDocs, setUploadedDocs] = useState<Set<string>>(new Set());
+  const [step, setStep] = useState<number>(() => {
+    const saved = Number(sessionStorage.getItem("ppau_prof_step"));
+    return Number.isInteger(saved) && saved >= 0 && saved < steps.length ? saved : 0;
+  });
+  const [uploadedDocs, setUploadedDocs] = useState<Set<string>>(() => {
+    try {
+      const raw = sessionStorage.getItem("ppau_prof_docs");
+      return raw ? new Set<string>(JSON.parse(raw) as string[]) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
   const [applicationId, setApplicationId] = useState<string | null>(() =>
     sessionStorage.getItem("ppau_app_id"),
   );
+
+  const persistUploadedDocs = useCallback((type: string) => {
+    setUploadedDocs((prev) => {
+      const next = new Set(prev);
+      next.add(type);
+      sessionStorage.setItem("ppau_prof_docs", JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("ppau_prof_step", String(step));
+  }, [step]);
+
+  useEffect(() => {
+    if (!applicationId) return;
+    const sb = getSupabase();
+    let cancelled = false;
+    void (async () => {
+      try {
+        const { data } = await sb
+          .from("application_documents")
+          .select("document_type")
+          .eq("application_id", applicationId);
+        if (cancelled || !data) return;
+        sessionStorage.setItem(
+          "ppau_prof_docs",
+          JSON.stringify([...new Set(data.map((d) => d.document_type))]),
+        );
+        setUploadedDocs((prev) => {
+          const next = new Set(prev);
+          for (const d of data) next.add(d.document_type);
+          return next;
+        });
+      } catch {
+        // Ignore — upload status is best-effort on reload.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [applicationId]);
 
   const currentStep = steps[step] ?? steps[0];
   const show = (key: string) => isFieldEnabled(fields, key);
@@ -138,6 +190,8 @@ function ProfessionalFormPage() {
           values.sector === "public" ? values.government_facility_name : null,
       });
       sessionStorage.removeItem("ppau_app_id");
+      sessionStorage.removeItem("ppau_prof_step");
+      sessionStorage.removeItem("ppau_prof_docs");
       navigate({
         to: "/membership-form/payment",
         search: { application_id: appId },
@@ -661,7 +715,8 @@ function ProfessionalFormPage() {
                   documentType={doc.type}
                   label={doc.label}
                   required={doc.required}
-                  onUploadComplete={() => setUploadedDocs((prev) => new Set(prev).add(doc.type))}
+                  onUploadComplete={() => persistUploadedDocs(doc.type)}
+                  defaultDone={uploadedDocs.has(doc.type)}
                 />
               ))}
               {currentStep === "Documents" &&

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPublicFormConfig } from "@/lib/admin/forms";
@@ -45,7 +45,7 @@ import {
   fieldsForStep,
   isFieldEnabled,
 } from "@/lib/membership/form-config-utils";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { isSupabaseConfigured, getSupabase } from "@/lib/supabase/client";
 
 import { pageHead } from "@/lib/seo";
 
@@ -75,11 +75,64 @@ function StudentFormPage() {
   const steps = formConfig?.steps_config ?? DEFAULT_STUDENT_CONFIG.steps_config;
   const documents = formConfig?.documents_config ?? DEFAULT_STUDENT_CONFIG.documents_config;
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState<number>(() => {
+    const saved = Number(sessionStorage.getItem("ppau_stu_step"));
+    return Number.isInteger(saved) && saved >= 0 && saved < steps.length ? saved : 0;
+  });
+  const [uploadedDocs, setUploadedDocs] = useState<Set<string>>(() => {
+    try {
+      const raw = sessionStorage.getItem("ppau_stu_docs");
+      return raw ? new Set<string>(JSON.parse(raw) as string[]) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
   const [applicationId, setApplicationId] = useState<string | null>(
     () => sessionStorage.getItem("ppau_student_app_id"),
   );
   const [isOtherInstitution, setIsOtherInstitution] = useState(false);
+
+  const persistUploadedDocs = useCallback((type: string) => {
+    setUploadedDocs((prev) => {
+      const next = new Set(prev);
+      next.add(type);
+      sessionStorage.setItem("ppau_stu_docs", JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("ppau_stu_step", String(step));
+  }, [step]);
+
+  useEffect(() => {
+    if (!applicationId) return;
+    const sb = getSupabase();
+    let cancelled = false;
+    void (async () => {
+      try {
+        const { data } = await sb
+          .from("application_documents")
+          .select("document_type")
+          .eq("application_id", applicationId);
+        if (cancelled || !data) return;
+        sessionStorage.setItem(
+          "ppau_stu_docs",
+          JSON.stringify([...new Set(data.map((d) => d.document_type))]),
+        );
+        setUploadedDocs((prev) => {
+          const next = new Set(prev);
+          for (const d of data) next.add(d.document_type);
+          return next;
+        });
+      } catch {
+        // Ignore — upload status is best-effort on reload.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [applicationId]);
 
   const currentStep = steps[step] ?? steps[0];
   const show = (key: string) => isFieldEnabled(fields, key);
@@ -125,6 +178,8 @@ function StudentFormPage() {
         payment_status: "not_required",
       });
       sessionStorage.removeItem("ppau_student_app_id");
+      sessionStorage.removeItem("ppau_stu_step");
+      sessionStorage.removeItem("ppau_stu_docs");
       navigate({
         to: "/membership-form/success",
         search: {
@@ -469,6 +524,8 @@ function StudentFormPage() {
                   documentType={doc.type}
                   label={doc.label}
                   required={doc.required}
+                  defaultDone={uploadedDocs.has(doc.type)}
+                  onUploadComplete={() => persistUploadedDocs(doc.type)}
                 />
               ))}
             </div>

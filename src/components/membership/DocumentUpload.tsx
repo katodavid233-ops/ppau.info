@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,8 @@ type Props = {
   accept?: string;
   required?: boolean;
   onUploadComplete?: () => void;
+  /** Show this document as already uploaded (e.g. restored after a reload). */
+  defaultDone?: boolean;
 };
 
 export function DocumentUpload({
@@ -21,9 +23,14 @@ export function DocumentUpload({
   accept = "image/*,.pdf",
   required,
   onUploadComplete,
+  defaultDone = false,
 }: Props) {
   const [uploading, setUploading] = useState(false);
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(defaultDone);
+
+  useEffect(() => {
+    if (defaultDone) setDone(true);
+  }, [defaultDone]);
 
   async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -39,6 +46,7 @@ export function DocumentUpload({
     } finally {
       setUploading(false);
     }
+    e.target.value = "";
   }
 
   return (
