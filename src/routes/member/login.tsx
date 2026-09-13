@@ -39,11 +39,9 @@ function MemberLoginPage() {
     try {
       const { session } = await signIn(email, password);
       if (session?.access_token) {
-        try {
-          await linkMemberAccount(session.access_token);
-        } catch {
+        linkMemberAccount(session.access_token).catch(() => {
           /* link optional */
-        }
+        });
       }
       navigate({ to: "/member" });
     } catch (err) {

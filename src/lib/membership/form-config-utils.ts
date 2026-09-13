@@ -42,11 +42,13 @@ export function mergeFormConfig(
       (partial.fields_config as FormFieldConfig[]) ?? [],
     ),
     documents_config:
-      partial.documents_config?.length
+      Array.isArray(partial.documents_config) && partial.documents_config.length
         ? partial.documents_config
         : defaultConfig.documents_config,
     steps_config:
-      partial.steps_config?.length ? partial.steps_config : defaultConfig.steps_config,
+      Array.isArray(partial.steps_config) && partial.steps_config.length
+        ? partial.steps_config
+        : defaultConfig.steps_config,
   };
 }
 

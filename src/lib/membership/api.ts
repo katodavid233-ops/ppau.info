@@ -36,29 +36,41 @@ async function invokeFunction<T>(
   const baseUrl = import.meta.env.VITE_SUPABASE_URL as string;
   // Use fetch (not supabase.functions.invoke) so a logged-in admin/member session
   // cannot override the anon JWT — avoids RLS errors on public membership flows.
-  const res = await fetch(`${baseUrl}/functions/v1/${name}`, {
-    method: "POST",
-    headers: getEdgeFunctionHeaders(auth),
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
+  try {
+    const res = await fetch(`${baseUrl}/functions/v1/${name}`, {
+      method: "POST",
+      headers: getEdgeFunctionHeaders(auth),
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
 
-  const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
+    const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
 
-  if (!res.ok) {
-    const message = data?.error ? String(data.error) : `Request failed (${res.status})`;
-    if (message.includes("401") || message.toLowerCase().includes("unauthorized")) {
-      throw new Error(
-        "Membership service unauthorized — set VITE_SUPABASE_ANON_KEY on Vercel and redeploy.",
-      );
+    if (!res.ok) {
+      const message = data?.error ? String(data.error) : `Request failed (${res.status})`;
+      if (message.includes("401") || message.toLowerCase().includes("unauthorized")) {
+        throw new Error(
+          "Membership service unauthorized — set VITE_SUPABASE_ANON_KEY on Vercel and redeploy.",
+        );
+      }
+      throw new Error(message);
     }
-    throw new Error(message);
-  }
 
-  if (data && "error" in data && data.error) {
-    throw new Error(String(data.error));
-  }
+    if (data && "error" in data && data.error) {
+      throw new Error(String(data.error));
+    }
 
-  return data as T;
+    return data as T;
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new Error("Request timed out — please try again.");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export async function createApplication(

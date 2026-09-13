@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase/client";
-import { getRoleFromUser, getRoleFromSession } from "@/lib/auth/session";
 
 export const Route = createFileRoute("/member")({
   beforeLoad: async ({ location }) => {
@@ -17,9 +16,6 @@ export const Route = createFileRoute("/member")({
     const sb = getSupabase();
     const { data: { session } } = await sb.auth.getSession();
     if (!session) throw redirect({ to: "/member/login" });
-    const { data: { user } } = await sb.auth.getUser();
-    const role = getRoleFromUser(user) ?? getRoleFromSession(session);
-    if (role === "admin") throw redirect({ to: "/admin" });
   },
   component: () => (
     <div className="section-padding bg-background min-h-[60vh]">
