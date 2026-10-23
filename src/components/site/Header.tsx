@@ -13,6 +13,7 @@ const nav = [
   { to: "/membership", label: "Membership" },
   { href: CPD_CME_URL, label: "CPD/CME" },
   { to: "/events", label: "Events" },
+  { to: "/voting", label: "Elections" },
   { to: "/news", label: "News" },
   { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },

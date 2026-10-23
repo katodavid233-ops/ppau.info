@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getSupabase } from "@/lib/supabase/client";
 import { signOut } from "@/lib/auth/session";
 import { useNavigate } from "@tanstack/react-router";
@@ -12,6 +12,12 @@ import { MemberProfilePhoto } from "@/components/member/MemberProfilePhoto";
 import { MemberProfileDialog } from "@/components/member/MemberProfileDialog";
 import { fetchCpdPointsServer } from "@/lib/cpd/server";
 import type { CpdPointsResponse } from "@/lib/cpd/client";
+import {
+  ensureVoterProfile,
+  fetchCurrentVoter,
+  isElectionOpen,
+  listElections,
+} from "@/lib/voting/api";
 import { Calendar, CalendarDays, Award, Target, Megaphone, Briefcase, Vote } from "lucide-react";
 
 const CPD_ANNUAL_TARGET = 30;
@@ -79,7 +85,12 @@ function MemberDashboard() {
         <Card className="mb-6 border-primary/30">
           <CardHeader>
             <div className="flex flex-wrap items-center gap-4">
-              <MemberProfilePhoto applicationId={applicationId} fullName={displayName} size="lg" />
+              <MemberProfilePhoto
+                applicationId={applicationId}
+                fullName={displayName}
+                size="lg"
+                editable={Boolean(applicationId && accessToken)}
+              />
               <div className="min-w-0 flex-1">
                 <CardTitle className="flex flex-wrap items-center gap-2">
                   {member.full_name}
@@ -156,6 +167,8 @@ function MemberDashboard() {
           </Link>
         </p>
       )}
+
+      {member && <VoterCard />}
 
       {member?.membership_number && (
         <Card className="mt-8 border-primary/20">
@@ -308,24 +321,120 @@ function MemberDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Vote className="h-5 w-5 text-primary" /> Elections
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <div className="font-medium">PPAU elections information will appear here.</div>
-                <div className="text-xs text-muted-foreground mt-0.5">
-                  For example: positions, timelines, and candidate statements.
-                </div>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
+        <ElectionsCard />
       </section>
     </div>
+  );
+}
+
+function VoterCard() {
+  const qc = useQueryClient();
+  const { data: voter, isLoading } = useQuery({
+    queryKey: ["member-voter"],
+    queryFn: fetchCurrentVoter,
+  });
+
+  const claim = useMutation({
+    mutationFn: ensureVoterProfile,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["member-voter"] }),
+  });
+
+  return (
+    <Card className="mt-6">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Vote className="h-5 w-5 text-primary" /> Voter registration
+          {voter && (
+            <Badge variant={voter.is_verified ? "default" : "secondary"} className="ml-auto">
+              {voter.is_verified ? "verified" : "pending verification"}
+            </Badge>
+          )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 text-sm">
+        {isLoading ? (
+          <p className="text-muted-foreground">Checking voter profile...</p>
+        ) : voter ? (
+          <>
+            <p className="text-muted-foreground">
+              {voter.is_verified
+                ? "You can vote in open PPAU elections."
+                : "Your voter profile is pending verification by the PPAU Secretariat."}
+            </p>
+            <Button asChild size="sm" className="rounded-full">
+              <Link to="/voting">View elections</Link>
+            </Button>
+          </>
+        ) : (
+          <>
+            <p className="text-muted-foreground">
+              Activate your voter profile to participate in PPAU elections. An admin verifies it
+              before you can vote.
+            </p>
+            <Button
+              size="sm"
+              className="rounded-full"
+              disabled={claim.isPending}
+              onClick={() => claim.mutate()}
+            >
+              {claim.isPending ? "Activating..." : "Activate voter profile"}
+            </Button>
+            {claim.error && (
+              <p className="text-destructive text-xs">
+                {claim.error instanceof Error ? claim.error.message : "Could not activate profile"}
+              </p>
+            )}
+          </>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function ElectionsCard() {
+  const { data: elections } = useQuery({
+    queryKey: ["member-elections"],
+    queryFn: listElections,
+  });
+
+  const open = (elections ?? []).filter((e) => isElectionOpen(e));
+  const recent = (elections ?? []).slice(0, 3);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Vote className="h-5 w-5 text-primary" /> Elections
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {recent.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No elections are currently available.</p>
+        ) : (
+          <ul className="space-y-3 text-sm">
+            {recent.map((election) => (
+              <li key={election.id} className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="font-medium">{election.title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {new Date(election.starts_at).toLocaleDateString()} —{" "}
+                    {new Date(election.ends_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <Badge
+                  variant={isElectionOpen(election) ? "default" : "secondary"}
+                  className="shrink-0"
+                >
+                  {isElectionOpen(election) ? "Vote now" : election.status}
+                </Badge>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Button asChild size="sm" variant="outline" className="mt-4 rounded-full">
+          <Link to="/voting">{open.length > 0 ? "Cast your vote" : "View all elections"}</Link>
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

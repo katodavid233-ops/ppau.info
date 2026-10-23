@@ -9,69 +9,121 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TrainingInstitutionsRouteImport } from './routes/training-institutions'
-import { Route as StrategicPlanRouteImport } from './routes/strategic-plan'
-import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as RegisteredSubscribedMembersRouteImport } from './routes/registered-subscribed-members'
-import { Route as NewsRouteImport } from './routes/news'
-import { Route as MembershipRouteImport } from './routes/membership'
-import { Route as EventsRouteImport } from './routes/events'
-import { Route as CpdRouteImport } from './routes/cpd'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CommunityRouteImport } from './routes/community'
-import { Route as CommitteeRouteImport } from './routes/committee'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as MembershipFormRouteRouteImport } from './routes/membership-form/route'
-import { Route as MemberRouteRouteImport } from './routes/member/route'
-import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MembershipFormIndexRouteImport } from './routes/membership-form/index'
-import { Route as MemberIndexRouteImport } from './routes/member/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as CommitteeRouteImport } from './routes/committee'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CpdRouteImport } from './routes/cpd'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as MemberRouteRouteImport } from './routes/member/route'
+import { Route as MembershipRouteImport } from './routes/membership'
+import { Route as MembershipFormRouteRouteImport } from './routes/membership-form/route'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as RegisteredSubscribedMembersRouteImport } from './routes/registered-subscribed-members'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as StrategicPlanRouteImport } from './routes/strategic-plan'
+import { Route as TrainingInstitutionsRouteImport } from './routes/training-institutions'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as NewsPpauUhpabTranscriptsRouteImport } from './routes/news.ppau-uhpab-transcripts'
-import { Route as NewsPpauNdhpactAlarmRouteImport } from './routes/news.ppau-ndhpact-alarm'
-import { Route as NewsPharmacyProfessionalsMarketingRouteImport } from './routes/news.pharmacy-professionals-marketing'
-import { Route as NewsNdaAhpcPpauMeetingRouteImport } from './routes/news.nda-ahpc-ppau-meeting'
-import { Route as NewsFamilyPlanningServicesRouteImport } from './routes/news.family-planning-services'
-import { Route as MembershipFormSuccessRouteImport } from './routes/membership-form/success'
-import { Route as MembershipFormStudentRouteImport } from './routes/membership-form/student'
-import { Route as MembershipFormProfessionalRouteImport } from './routes/membership-form/professional'
-import { Route as MembershipFormPaymentRouteImport } from './routes/membership-form/payment'
-import { Route as MemberSetPasswordRouteImport } from './routes/member/set-password'
-import { Route as MemberLoginRouteImport } from './routes/member/login'
-import { Route as MemberForgotPasswordRouteImport } from './routes/member/forgot-password'
-import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
-import { Route as AdminMigrationRouteImport } from './routes/admin/migration'
-import { Route as AdminLoginRouteImport } from './routes/admin/login'
-import { Route as AdminContactRouteImport } from './routes/admin/contact'
 import { Route as AdminAdminsRouteImport } from './routes/admin/admins'
+import { Route as AdminContactRouteImport } from './routes/admin/contact'
 import { Route as AdminEmailRouteRouteImport } from './routes/admin/email/route'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminMigrationRouteImport } from './routes/admin/migration'
+import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
+import { Route as AdminVotersRouteImport } from './routes/admin/voters'
+import { Route as MemberIndexRouteImport } from './routes/member/index'
+import { Route as MemberForgotPasswordRouteImport } from './routes/member/forgot-password'
+import { Route as MemberLoginRouteImport } from './routes/member/login'
+import { Route as MemberSetPasswordRouteImport } from './routes/member/set-password'
+import { Route as MembershipFormIndexRouteImport } from './routes/membership-form/index'
+import { Route as MembershipFormPaymentRouteImport } from './routes/membership-form/payment'
+import { Route as MembershipFormProfessionalRouteImport } from './routes/membership-form/professional'
+import { Route as MembershipFormStudentRouteImport } from './routes/membership-form/student'
+import { Route as MembershipFormSuccessRouteImport } from './routes/membership-form/success'
+import { Route as NewsFamilyPlanningServicesRouteImport } from './routes/news.family-planning-services'
+import { Route as NewsNdaAhpcPpauMeetingRouteImport } from './routes/news.nda-ahpc-ppau-meeting'
+import { Route as NewsPharmacyProfessionalsMarketingRouteImport } from './routes/news.pharmacy-professionals-marketing'
+import { Route as NewsPpauNdhpactAlarmRouteImport } from './routes/news.ppau-ndhpact-alarm'
+import { Route as NewsPpauUhpabTranscriptsRouteImport } from './routes/news.ppau-uhpab-transcripts'
+import { Route as VotingIndexRouteImport } from './routes/voting/index'
+import { Route as VotingIdRouteRouteImport } from './routes/voting/$id/route'
 import { Route as AdminApplicationsIndexRouteImport } from './routes/admin/applications/index'
-import { Route as MembershipFormPaymentCallbackRouteImport } from './routes/membership-form/payment.callback'
-import { Route as AdminMembersRejectedRouteImport } from './routes/admin/members.rejected'
-import { Route as AdminMembersAcceptedRouteImport } from './routes/admin/members.accepted'
-import { Route as AdminFormsStudentRouteImport } from './routes/admin/forms.student'
-import { Route as AdminFormsProfessionalRouteImport } from './routes/admin/forms.professional'
-import { Route as AdminEmailSettingsRouteImport } from './routes/admin/email/settings'
-import { Route as AdminEmailBroadcastRouteImport } from './routes/admin/email/broadcast'
 import { Route as AdminApplicationsIdRouteImport } from './routes/admin/applications.$id'
+import { Route as AdminElectionsIndexRouteImport } from './routes/admin/elections/index'
+import { Route as AdminElectionsIdRouteImport } from './routes/admin/elections/$id'
+import { Route as AdminEmailBroadcastRouteImport } from './routes/admin/email/broadcast'
+import { Route as AdminEmailSettingsRouteImport } from './routes/admin/email/settings'
 import { Route as AdminEmailTemplatesRouteRouteImport } from './routes/admin/email/templates/route'
+import { Route as AdminFormsProfessionalRouteImport } from './routes/admin/forms.professional'
+import { Route as AdminFormsStudentRouteImport } from './routes/admin/forms.student'
+import { Route as AdminMembersAcceptedRouteImport } from './routes/admin/members.accepted'
+import { Route as AdminMembersRejectedRouteImport } from './routes/admin/members.rejected'
+import { Route as MembershipFormPaymentCallbackRouteImport } from './routes/membership-form/payment.callback'
+import { Route as VotingIdIndexRouteImport } from './routes/voting/$id/index'
+import { Route as VotingIdResultsRouteImport } from './routes/voting/$id/results'
 import { Route as AdminEmailTemplatesIndexRouteImport } from './routes/admin/email/templates/index'
 import { Route as AdminEmailTemplatesSlugRouteImport } from './routes/admin/email/templates/$slug'
 
-const TrainingInstitutionsRoute = TrainingInstitutionsRouteImport.update({
-  id: '/training-institutions',
-  path: '/training-institutions',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StrategicPlanRoute = StrategicPlanRouteImport.update({
-  id: '/strategic-plan',
-  path: '/strategic-plan',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesRoute = ResourcesRouteImport.update({
-  id: '/resources',
-  path: '/resources',
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommitteeRoute = CommitteeRouteImport.update({
+  id: '/committee',
+  path: '/committee',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CpdRoute = CpdRouteImport.update({
+  id: '/cpd',
+  path: '/cpd',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemberRouteRoute = MemberRouteRouteImport.update({
+  id: '/member',
+  path: '/member',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipRoute = MembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipFormRouteRoute = MembershipFormRouteRouteImport.update({
+  id: '/membership-form',
+  path: '/membership-form',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisteredSubscribedMembersRoute =
@@ -80,117 +132,89 @@ const RegisteredSubscribedMembersRoute =
     path: '/registered-subscribed-members',
     getParentRoute: () => rootRouteImport,
   } as any)
-const NewsRoute = NewsRouteImport.update({
-  id: '/news',
-  path: '/news',
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MembershipRoute = MembershipRouteImport.update({
-  id: '/membership',
-  path: '/membership',
+const StrategicPlanRoute = StrategicPlanRouteImport.update({
+  id: '/strategic-plan',
+  path: '/strategic-plan',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
+const TrainingInstitutionsRoute = TrainingInstitutionsRouteImport.update({
+  id: '/training-institutions',
+  path: '/training-institutions',
   getParentRoute: () => rootRouteImport,
-} as any)
-const CpdRoute = CpdRouteImport.update({
-  id: '/cpd',
-  path: '/cpd',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommitteeRoute = CommitteeRouteImport.update({
-  id: '/committee',
-  path: '/committee',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MembershipFormRouteRoute = MembershipFormRouteRouteImport.update({
-  id: '/membership-form',
-  path: '/membership-form',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MemberRouteRoute = MemberRouteRouteImport.update({
-  id: '/member',
-  path: '/member',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRouteRoute = AdminRouteRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MembershipFormIndexRoute = MembershipFormIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MembershipFormRouteRoute,
-} as any)
-const MemberIndexRoute = MemberIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MemberRouteRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const NewsPpauUhpabTranscriptsRoute =
-  NewsPpauUhpabTranscriptsRouteImport.update({
-    id: '/ppau-uhpab-transcripts',
-    path: '/ppau-uhpab-transcripts',
-    getParentRoute: () => NewsRoute,
-  } as any)
-const NewsPpauNdhpactAlarmRoute = NewsPpauNdhpactAlarmRouteImport.update({
-  id: '/ppau-ndhpact-alarm',
-  path: '/ppau-ndhpact-alarm',
-  getParentRoute: () => NewsRoute,
+const AdminAdminsRoute = AdminAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const NewsPharmacyProfessionalsMarketingRoute =
-  NewsPharmacyProfessionalsMarketingRouteImport.update({
-    id: '/pharmacy-professionals-marketing',
-    path: '/pharmacy-professionals-marketing',
-    getParentRoute: () => NewsRoute,
-  } as any)
-const NewsNdaAhpcPpauMeetingRoute = NewsNdaAhpcPpauMeetingRouteImport.update({
-  id: '/nda-ahpc-ppau-meeting',
-  path: '/nda-ahpc-ppau-meeting',
-  getParentRoute: () => NewsRoute,
+const AdminContactRoute = AdminContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const NewsFamilyPlanningServicesRoute =
-  NewsFamilyPlanningServicesRouteImport.update({
-    id: '/family-planning-services',
-    path: '/family-planning-services',
-    getParentRoute: () => NewsRoute,
-  } as any)
-const MembershipFormSuccessRoute = MembershipFormSuccessRouteImport.update({
-  id: '/success',
-  path: '/success',
+const AdminEmailRouteRoute = AdminEmailRouteRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMigrationRoute = AdminMigrationRouteImport.update({
+  id: '/migration',
+  path: '/migration',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminVotersRoute = AdminVotersRouteImport.update({
+  id: '/voters',
+  path: '/voters',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const MemberIndexRoute = MemberIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
+const MemberForgotPasswordRoute = MemberForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
+const MemberLoginRoute = MemberLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
+const MemberSetPasswordRoute = MemberSetPasswordRouteImport.update({
+  id: '/set-password',
+  path: '/set-password',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
+const MembershipFormIndexRoute = MembershipFormIndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => MembershipFormRouteRoute,
 } as any)
-const MembershipFormStudentRoute = MembershipFormStudentRouteImport.update({
-  id: '/student',
-  path: '/student',
+const MembershipFormPaymentRoute = MembershipFormPaymentRouteImport.update({
+  id: '/payment',
+  path: '/payment',
   getParentRoute: () => MembershipFormRouteRoute,
 } as any)
 const MembershipFormProfessionalRoute =
@@ -199,59 +223,108 @@ const MembershipFormProfessionalRoute =
     path: '/professional',
     getParentRoute: () => MembershipFormRouteRoute,
   } as any)
-const MembershipFormPaymentRoute = MembershipFormPaymentRouteImport.update({
-  id: '/payment',
-  path: '/payment',
+const MembershipFormStudentRoute = MembershipFormStudentRouteImport.update({
+  id: '/student',
+  path: '/student',
   getParentRoute: () => MembershipFormRouteRoute,
 } as any)
-const MemberSetPasswordRoute = MemberSetPasswordRouteImport.update({
-  id: '/set-password',
-  path: '/set-password',
-  getParentRoute: () => MemberRouteRoute,
+const MembershipFormSuccessRoute = MembershipFormSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => MembershipFormRouteRoute,
 } as any)
-const MemberLoginRoute = MemberLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => MemberRouteRoute,
+const NewsFamilyPlanningServicesRoute =
+  NewsFamilyPlanningServicesRouteImport.update({
+    id: '/family-planning-services',
+    path: '/family-planning-services',
+    getParentRoute: () => NewsRoute,
+  } as any)
+const NewsNdaAhpcPpauMeetingRoute = NewsNdaAhpcPpauMeetingRouteImport.update({
+  id: '/nda-ahpc-ppau-meeting',
+  path: '/nda-ahpc-ppau-meeting',
+  getParentRoute: () => NewsRoute,
 } as any)
-const MemberForgotPasswordRoute = MemberForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => MemberRouteRoute,
+const NewsPharmacyProfessionalsMarketingRoute =
+  NewsPharmacyProfessionalsMarketingRouteImport.update({
+    id: '/pharmacy-professionals-marketing',
+    path: '/pharmacy-professionals-marketing',
+    getParentRoute: () => NewsRoute,
+  } as any)
+const NewsPpauNdhpactAlarmRoute = NewsPpauNdhpactAlarmRouteImport.update({
+  id: '/ppau-ndhpact-alarm',
+  path: '/ppau-ndhpact-alarm',
+  getParentRoute: () => NewsRoute,
 } as any)
-const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
-  id: '/payments',
-  path: '/payments',
-  getParentRoute: () => AdminRouteRoute,
+const NewsPpauUhpabTranscriptsRoute =
+  NewsPpauUhpabTranscriptsRouteImport.update({
+    id: '/ppau-uhpab-transcripts',
+    path: '/ppau-uhpab-transcripts',
+    getParentRoute: () => NewsRoute,
+  } as any)
+const VotingIndexRoute = VotingIndexRouteImport.update({
+  id: '/voting/',
+  path: '/voting/',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminMigrationRoute = AdminMigrationRouteImport.update({
-  id: '/migration',
-  path: '/migration',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminContactRoute = AdminContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminAdminsRoute = AdminAdminsRouteImport.update({
-  id: '/admins',
-  path: '/admins',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminEmailRouteRoute = AdminEmailRouteRouteImport.update({
-  id: '/email',
-  path: '/email',
-  getParentRoute: () => AdminRouteRoute,
+const VotingIdRouteRoute = VotingIdRouteRouteImport.update({
+  id: '/voting/$id',
+  path: '/voting/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminApplicationsIndexRoute = AdminApplicationsIndexRouteImport.update({
   id: '/applications/',
   path: '/applications/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminApplicationsIdRoute = AdminApplicationsIdRouteImport.update({
+  id: '/applications/$id',
+  path: '/applications/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminElectionsIndexRoute = AdminElectionsIndexRouteImport.update({
+  id: '/elections/',
+  path: '/elections/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminElectionsIdRoute = AdminElectionsIdRouteImport.update({
+  id: '/elections/$id',
+  path: '/elections/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminEmailBroadcastRoute = AdminEmailBroadcastRouteImport.update({
+  id: '/broadcast',
+  path: '/broadcast',
+  getParentRoute: () => AdminEmailRouteRoute,
+} as any)
+const AdminEmailSettingsRoute = AdminEmailSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminEmailRouteRoute,
+} as any)
+const AdminEmailTemplatesRouteRoute =
+  AdminEmailTemplatesRouteRouteImport.update({
+    id: '/templates',
+    path: '/templates',
+    getParentRoute: () => AdminEmailRouteRoute,
+  } as any)
+const AdminFormsProfessionalRoute = AdminFormsProfessionalRouteImport.update({
+  id: '/forms/professional',
+  path: '/forms/professional',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminFormsStudentRoute = AdminFormsStudentRouteImport.update({
+  id: '/forms/student',
+  path: '/forms/student',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMembersAcceptedRoute = AdminMembersAcceptedRouteImport.update({
+  id: '/members/accepted',
+  path: '/members/accepted',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMembersRejectedRoute = AdminMembersRejectedRouteImport.update({
+  id: '/members/rejected',
+  path: '/members/rejected',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const MembershipFormPaymentCallbackRoute =
@@ -260,47 +333,16 @@ const MembershipFormPaymentCallbackRoute =
     path: '/callback',
     getParentRoute: () => MembershipFormPaymentRoute,
   } as any)
-const AdminMembersRejectedRoute = AdminMembersRejectedRouteImport.update({
-  id: '/members/rejected',
-  path: '/members/rejected',
-  getParentRoute: () => AdminRouteRoute,
+const VotingIdIndexRoute = VotingIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => VotingIdRouteRoute,
 } as any)
-const AdminMembersAcceptedRoute = AdminMembersAcceptedRouteImport.update({
-  id: '/members/accepted',
-  path: '/members/accepted',
-  getParentRoute: () => AdminRouteRoute,
+const VotingIdResultsRoute = VotingIdResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => VotingIdRouteRoute,
 } as any)
-const AdminFormsStudentRoute = AdminFormsStudentRouteImport.update({
-  id: '/forms/student',
-  path: '/forms/student',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminFormsProfessionalRoute = AdminFormsProfessionalRouteImport.update({
-  id: '/forms/professional',
-  path: '/forms/professional',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminEmailSettingsRoute = AdminEmailSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AdminEmailRouteRoute,
-} as any)
-const AdminEmailBroadcastRoute = AdminEmailBroadcastRouteImport.update({
-  id: '/broadcast',
-  path: '/broadcast',
-  getParentRoute: () => AdminEmailRouteRoute,
-} as any)
-const AdminApplicationsIdRoute = AdminApplicationsIdRouteImport.update({
-  id: '/applications/$id',
-  path: '/applications/$id',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminEmailTemplatesRouteRoute =
-  AdminEmailTemplatesRouteRouteImport.update({
-    id: '/templates',
-    path: '/templates',
-    getParentRoute: () => AdminEmailRouteRoute,
-  } as any)
 const AdminEmailTemplatesIndexRoute =
   AdminEmailTemplatesIndexRouteImport.update({
     id: '/',
@@ -331,11 +373,13 @@ export interface FileRoutesByFullPath {
   '/strategic-plan': typeof StrategicPlanRoute
   '/training-institutions': typeof TrainingInstitutionsRoute
   '/admin/email': typeof AdminEmailRouteRouteWithChildren
+  '/voting/$id': typeof VotingIdRouteRouteWithChildren
   '/admin/admins': typeof AdminAdminsRoute
   '/admin/contact': typeof AdminContactRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/migration': typeof AdminMigrationRoute
   '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/voters': typeof AdminVotersRoute
   '/member/forgot-password': typeof MemberForgotPasswordRoute
   '/member/login': typeof MemberLoginRoute
   '/member/set-password': typeof MemberSetPasswordRoute
@@ -351,8 +395,10 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/member/': typeof MemberIndexRoute
   '/membership-form/': typeof MembershipFormIndexRoute
+  '/voting/': typeof VotingIndexRoute
   '/admin/email/templates': typeof AdminEmailTemplatesRouteRouteWithChildren
   '/admin/applications/$id': typeof AdminApplicationsIdRoute
+  '/admin/elections/$id': typeof AdminElectionsIdRoute
   '/admin/email/broadcast': typeof AdminEmailBroadcastRoute
   '/admin/email/settings': typeof AdminEmailSettingsRoute
   '/admin/forms/professional': typeof AdminFormsProfessionalRoute
@@ -360,7 +406,10 @@ export interface FileRoutesByFullPath {
   '/admin/members/accepted': typeof AdminMembersAcceptedRoute
   '/admin/members/rejected': typeof AdminMembersRejectedRoute
   '/membership-form/payment/callback': typeof MembershipFormPaymentCallbackRoute
+  '/voting/$id/results': typeof VotingIdResultsRoute
   '/admin/applications/': typeof AdminApplicationsIndexRoute
+  '/admin/elections/': typeof AdminElectionsIndexRoute
+  '/voting/$id/': typeof VotingIdIndexRoute
   '/admin/email/templates/$slug': typeof AdminEmailTemplatesSlugRoute
   '/admin/email/templates/': typeof AdminEmailTemplatesIndexRoute
 }
@@ -384,6 +433,7 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/migration': typeof AdminMigrationRoute
   '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/voters': typeof AdminVotersRoute
   '/member/forgot-password': typeof MemberForgotPasswordRoute
   '/member/login': typeof MemberLoginRoute
   '/member/set-password': typeof MemberSetPasswordRoute
@@ -399,7 +449,9 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/member': typeof MemberIndexRoute
   '/membership-form': typeof MembershipFormIndexRoute
+  '/voting': typeof VotingIndexRoute
   '/admin/applications/$id': typeof AdminApplicationsIdRoute
+  '/admin/elections/$id': typeof AdminElectionsIdRoute
   '/admin/email/broadcast': typeof AdminEmailBroadcastRoute
   '/admin/email/settings': typeof AdminEmailSettingsRoute
   '/admin/forms/professional': typeof AdminFormsProfessionalRoute
@@ -407,7 +459,10 @@ export interface FileRoutesByTo {
   '/admin/members/accepted': typeof AdminMembersAcceptedRoute
   '/admin/members/rejected': typeof AdminMembersRejectedRoute
   '/membership-form/payment/callback': typeof MembershipFormPaymentCallbackRoute
+  '/voting/$id/results': typeof VotingIdResultsRoute
   '/admin/applications': typeof AdminApplicationsIndexRoute
+  '/admin/elections': typeof AdminElectionsIndexRoute
+  '/voting/$id': typeof VotingIdIndexRoute
   '/admin/email/templates/$slug': typeof AdminEmailTemplatesSlugRoute
   '/admin/email/templates': typeof AdminEmailTemplatesIndexRoute
 }
@@ -430,11 +485,13 @@ export interface FileRoutesById {
   '/strategic-plan': typeof StrategicPlanRoute
   '/training-institutions': typeof TrainingInstitutionsRoute
   '/admin/email': typeof AdminEmailRouteRouteWithChildren
+  '/voting/$id': typeof VotingIdRouteRouteWithChildren
   '/admin/admins': typeof AdminAdminsRoute
   '/admin/contact': typeof AdminContactRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/migration': typeof AdminMigrationRoute
   '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/voters': typeof AdminVotersRoute
   '/member/forgot-password': typeof MemberForgotPasswordRoute
   '/member/login': typeof MemberLoginRoute
   '/member/set-password': typeof MemberSetPasswordRoute
@@ -450,8 +507,10 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/member/': typeof MemberIndexRoute
   '/membership-form/': typeof MembershipFormIndexRoute
+  '/voting/': typeof VotingIndexRoute
   '/admin/email/templates': typeof AdminEmailTemplatesRouteRouteWithChildren
   '/admin/applications/$id': typeof AdminApplicationsIdRoute
+  '/admin/elections/$id': typeof AdminElectionsIdRoute
   '/admin/email/broadcast': typeof AdminEmailBroadcastRoute
   '/admin/email/settings': typeof AdminEmailSettingsRoute
   '/admin/forms/professional': typeof AdminFormsProfessionalRoute
@@ -459,7 +518,10 @@ export interface FileRoutesById {
   '/admin/members/accepted': typeof AdminMembersAcceptedRoute
   '/admin/members/rejected': typeof AdminMembersRejectedRoute
   '/membership-form/payment/callback': typeof MembershipFormPaymentCallbackRoute
+  '/voting/$id/results': typeof VotingIdResultsRoute
   '/admin/applications/': typeof AdminApplicationsIndexRoute
+  '/admin/elections/': typeof AdminElectionsIndexRoute
+  '/voting/$id/': typeof VotingIdIndexRoute
   '/admin/email/templates/$slug': typeof AdminEmailTemplatesSlugRoute
   '/admin/email/templates/': typeof AdminEmailTemplatesIndexRoute
 }
@@ -483,11 +545,13 @@ export interface FileRouteTypes {
     | '/strategic-plan'
     | '/training-institutions'
     | '/admin/email'
+    | '/voting/$id'
     | '/admin/admins'
     | '/admin/contact'
     | '/admin/login'
     | '/admin/migration'
     | '/admin/payments'
+    | '/admin/voters'
     | '/member/forgot-password'
     | '/member/login'
     | '/member/set-password'
@@ -503,8 +567,10 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/member/'
     | '/membership-form/'
+    | '/voting/'
     | '/admin/email/templates'
     | '/admin/applications/$id'
+    | '/admin/elections/$id'
     | '/admin/email/broadcast'
     | '/admin/email/settings'
     | '/admin/forms/professional'
@@ -512,7 +578,10 @@ export interface FileRouteTypes {
     | '/admin/members/accepted'
     | '/admin/members/rejected'
     | '/membership-form/payment/callback'
+    | '/voting/$id/results'
     | '/admin/applications/'
+    | '/admin/elections/'
+    | '/voting/$id/'
     | '/admin/email/templates/$slug'
     | '/admin/email/templates/'
   fileRoutesByTo: FileRoutesByTo
@@ -536,6 +605,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/migration'
     | '/admin/payments'
+    | '/admin/voters'
     | '/member/forgot-password'
     | '/member/login'
     | '/member/set-password'
@@ -551,7 +621,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/member'
     | '/membership-form'
+    | '/voting'
     | '/admin/applications/$id'
+    | '/admin/elections/$id'
     | '/admin/email/broadcast'
     | '/admin/email/settings'
     | '/admin/forms/professional'
@@ -559,7 +631,10 @@ export interface FileRouteTypes {
     | '/admin/members/accepted'
     | '/admin/members/rejected'
     | '/membership-form/payment/callback'
+    | '/voting/$id/results'
     | '/admin/applications'
+    | '/admin/elections'
+    | '/voting/$id'
     | '/admin/email/templates/$slug'
     | '/admin/email/templates'
   id:
@@ -581,11 +656,13 @@ export interface FileRouteTypes {
     | '/strategic-plan'
     | '/training-institutions'
     | '/admin/email'
+    | '/voting/$id'
     | '/admin/admins'
     | '/admin/contact'
     | '/admin/login'
     | '/admin/migration'
     | '/admin/payments'
+    | '/admin/voters'
     | '/member/forgot-password'
     | '/member/login'
     | '/member/set-password'
@@ -601,8 +678,10 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/member/'
     | '/membership-form/'
+    | '/voting/'
     | '/admin/email/templates'
     | '/admin/applications/$id'
+    | '/admin/elections/$id'
     | '/admin/email/broadcast'
     | '/admin/email/settings'
     | '/admin/forms/professional'
@@ -610,7 +689,10 @@ export interface FileRouteTypes {
     | '/admin/members/accepted'
     | '/admin/members/rejected'
     | '/membership-form/payment/callback'
+    | '/voting/$id/results'
     | '/admin/applications/'
+    | '/admin/elections/'
+    | '/voting/$id/'
     | '/admin/email/templates/$slug'
     | '/admin/email/templates/'
   fileRoutesById: FileRoutesById
@@ -632,85 +714,17 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   StrategicPlanRoute: typeof StrategicPlanRoute
   TrainingInstitutionsRoute: typeof TrainingInstitutionsRoute
+  VotingIdRouteRoute: typeof VotingIdRouteRouteWithChildren
+  VotingIndexRoute: typeof VotingIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/training-institutions': {
-      id: '/training-institutions'
-      path: '/training-institutions'
-      fullPath: '/training-institutions'
-      preLoaderRoute: typeof TrainingInstitutionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/strategic-plan': {
-      id: '/strategic-plan'
-      path: '/strategic-plan'
-      fullPath: '/strategic-plan'
-      preLoaderRoute: typeof StrategicPlanRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources': {
-      id: '/resources'
-      path: '/resources'
-      fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/registered-subscribed-members': {
-      id: '/registered-subscribed-members'
-      path: '/registered-subscribed-members'
-      fullPath: '/registered-subscribed-members'
-      preLoaderRoute: typeof RegisteredSubscribedMembersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news': {
-      id: '/news'
-      path: '/news'
-      fullPath: '/news'
-      preLoaderRoute: typeof NewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/membership': {
-      id: '/membership'
-      path: '/membership'
-      fullPath: '/membership'
-      preLoaderRoute: typeof MembershipRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cpd': {
-      id: '/cpd'
-      path: '/cpd'
-      fullPath: '/cpd'
-      preLoaderRoute: typeof CpdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/committee': {
-      id: '/committee'
-      path: '/committee'
-      fullPath: '/committee'
-      preLoaderRoute: typeof CommitteeRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -720,11 +734,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/membership-form': {
-      id: '/membership-form'
-      path: '/membership-form'
-      fullPath: '/membership-form'
-      preLoaderRoute: typeof MembershipFormRouteRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/committee': {
+      id: '/committee'
+      path: '/committee'
+      fullPath: '/committee'
+      preLoaderRoute: typeof CommitteeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cpd': {
+      id: '/cpd'
+      path: '/cpd'
+      fullPath: '/cpd'
+      preLoaderRoute: typeof CpdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/member': {
@@ -734,151 +783,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemberRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteRouteImport
+    '/membership': {
+      id: '/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof MembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/membership-form': {
+      id: '/membership-form'
+      path: '/membership-form'
+      fullPath: '/membership-form'
+      preLoaderRoute: typeof MembershipFormRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/membership-form/': {
-      id: '/membership-form/'
-      path: '/'
-      fullPath: '/membership-form/'
-      preLoaderRoute: typeof MembershipFormIndexRouteImport
-      parentRoute: typeof MembershipFormRouteRoute
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/member/': {
-      id: '/member/'
-      path: '/'
-      fullPath: '/member/'
-      preLoaderRoute: typeof MemberIndexRouteImport
-      parentRoute: typeof MemberRouteRoute
+    '/registered-subscribed-members': {
+      id: '/registered-subscribed-members'
+      path: '/registered-subscribed-members'
+      fullPath: '/registered-subscribed-members'
+      preLoaderRoute: typeof RegisteredSubscribedMembersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/strategic-plan': {
+      id: '/strategic-plan'
+      path: '/strategic-plan'
+      fullPath: '/strategic-plan'
+      preLoaderRoute: typeof StrategicPlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/training-institutions': {
+      id: '/training-institutions'
+      path: '/training-institutions'
+      fullPath: '/training-institutions'
+      preLoaderRoute: typeof TrainingInstitutionsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/': {
       id: '/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/news/ppau-uhpab-transcripts': {
-      id: '/news/ppau-uhpab-transcripts'
-      path: '/ppau-uhpab-transcripts'
-      fullPath: '/news/ppau-uhpab-transcripts'
-      preLoaderRoute: typeof NewsPpauUhpabTranscriptsRouteImport
-      parentRoute: typeof NewsRoute
-    }
-    '/news/ppau-ndhpact-alarm': {
-      id: '/news/ppau-ndhpact-alarm'
-      path: '/ppau-ndhpact-alarm'
-      fullPath: '/news/ppau-ndhpact-alarm'
-      preLoaderRoute: typeof NewsPpauNdhpactAlarmRouteImport
-      parentRoute: typeof NewsRoute
-    }
-    '/news/pharmacy-professionals-marketing': {
-      id: '/news/pharmacy-professionals-marketing'
-      path: '/pharmacy-professionals-marketing'
-      fullPath: '/news/pharmacy-professionals-marketing'
-      preLoaderRoute: typeof NewsPharmacyProfessionalsMarketingRouteImport
-      parentRoute: typeof NewsRoute
-    }
-    '/news/nda-ahpc-ppau-meeting': {
-      id: '/news/nda-ahpc-ppau-meeting'
-      path: '/nda-ahpc-ppau-meeting'
-      fullPath: '/news/nda-ahpc-ppau-meeting'
-      preLoaderRoute: typeof NewsNdaAhpcPpauMeetingRouteImport
-      parentRoute: typeof NewsRoute
-    }
-    '/news/family-planning-services': {
-      id: '/news/family-planning-services'
-      path: '/family-planning-services'
-      fullPath: '/news/family-planning-services'
-      preLoaderRoute: typeof NewsFamilyPlanningServicesRouteImport
-      parentRoute: typeof NewsRoute
-    }
-    '/membership-form/success': {
-      id: '/membership-form/success'
-      path: '/success'
-      fullPath: '/membership-form/success'
-      preLoaderRoute: typeof MembershipFormSuccessRouteImport
-      parentRoute: typeof MembershipFormRouteRoute
-    }
-    '/membership-form/student': {
-      id: '/membership-form/student'
-      path: '/student'
-      fullPath: '/membership-form/student'
-      preLoaderRoute: typeof MembershipFormStudentRouteImport
-      parentRoute: typeof MembershipFormRouteRoute
-    }
-    '/membership-form/professional': {
-      id: '/membership-form/professional'
-      path: '/professional'
-      fullPath: '/membership-form/professional'
-      preLoaderRoute: typeof MembershipFormProfessionalRouteImport
-      parentRoute: typeof MembershipFormRouteRoute
-    }
-    '/membership-form/payment': {
-      id: '/membership-form/payment'
-      path: '/payment'
-      fullPath: '/membership-form/payment'
-      preLoaderRoute: typeof MembershipFormPaymentRouteImport
-      parentRoute: typeof MembershipFormRouteRoute
-    }
-    '/member/set-password': {
-      id: '/member/set-password'
-      path: '/set-password'
-      fullPath: '/member/set-password'
-      preLoaderRoute: typeof MemberSetPasswordRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
-    '/member/login': {
-      id: '/member/login'
-      path: '/login'
-      fullPath: '/member/login'
-      preLoaderRoute: typeof MemberLoginRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
-    '/member/forgot-password': {
-      id: '/member/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/member/forgot-password'
-      preLoaderRoute: typeof MemberForgotPasswordRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
-    '/admin/payments': {
-      id: '/admin/payments'
-      path: '/payments'
-      fullPath: '/admin/payments'
-      preLoaderRoute: typeof AdminPaymentsRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/migration': {
-      id: '/admin/migration'
-      path: '/migration'
-      fullPath: '/admin/migration'
-      preLoaderRoute: typeof AdminMigrationRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/contact': {
-      id: '/admin/contact'
-      path: '/contact'
-      fullPath: '/admin/contact'
-      preLoaderRoute: typeof AdminContactRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/admins': {
@@ -888,12 +846,159 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/contact': {
+      id: '/admin/contact'
+      path: '/contact'
+      fullPath: '/admin/contact'
+      preLoaderRoute: typeof AdminContactRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/email': {
       id: '/admin/email'
       path: '/email'
       fullPath: '/admin/email'
       preLoaderRoute: typeof AdminEmailRouteRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/migration': {
+      id: '/admin/migration'
+      path: '/migration'
+      fullPath: '/admin/migration'
+      preLoaderRoute: typeof AdminMigrationRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/voters': {
+      id: '/admin/voters'
+      path: '/voters'
+      fullPath: '/admin/voters'
+      preLoaderRoute: typeof AdminVotersRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/member/': {
+      id: '/member/'
+      path: '/'
+      fullPath: '/member/'
+      preLoaderRoute: typeof MemberIndexRouteImport
+      parentRoute: typeof MemberRouteRoute
+    }
+    '/member/forgot-password': {
+      id: '/member/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/member/forgot-password'
+      preLoaderRoute: typeof MemberForgotPasswordRouteImport
+      parentRoute: typeof MemberRouteRoute
+    }
+    '/member/login': {
+      id: '/member/login'
+      path: '/login'
+      fullPath: '/member/login'
+      preLoaderRoute: typeof MemberLoginRouteImport
+      parentRoute: typeof MemberRouteRoute
+    }
+    '/member/set-password': {
+      id: '/member/set-password'
+      path: '/set-password'
+      fullPath: '/member/set-password'
+      preLoaderRoute: typeof MemberSetPasswordRouteImport
+      parentRoute: typeof MemberRouteRoute
+    }
+    '/membership-form/': {
+      id: '/membership-form/'
+      path: '/'
+      fullPath: '/membership-form/'
+      preLoaderRoute: typeof MembershipFormIndexRouteImport
+      parentRoute: typeof MembershipFormRouteRoute
+    }
+    '/membership-form/payment': {
+      id: '/membership-form/payment'
+      path: '/payment'
+      fullPath: '/membership-form/payment'
+      preLoaderRoute: typeof MembershipFormPaymentRouteImport
+      parentRoute: typeof MembershipFormRouteRoute
+    }
+    '/membership-form/professional': {
+      id: '/membership-form/professional'
+      path: '/professional'
+      fullPath: '/membership-form/professional'
+      preLoaderRoute: typeof MembershipFormProfessionalRouteImport
+      parentRoute: typeof MembershipFormRouteRoute
+    }
+    '/membership-form/student': {
+      id: '/membership-form/student'
+      path: '/student'
+      fullPath: '/membership-form/student'
+      preLoaderRoute: typeof MembershipFormStudentRouteImport
+      parentRoute: typeof MembershipFormRouteRoute
+    }
+    '/membership-form/success': {
+      id: '/membership-form/success'
+      path: '/success'
+      fullPath: '/membership-form/success'
+      preLoaderRoute: typeof MembershipFormSuccessRouteImport
+      parentRoute: typeof MembershipFormRouteRoute
+    }
+    '/news/family-planning-services': {
+      id: '/news/family-planning-services'
+      path: '/family-planning-services'
+      fullPath: '/news/family-planning-services'
+      preLoaderRoute: typeof NewsFamilyPlanningServicesRouteImport
+      parentRoute: typeof NewsRoute
+    }
+    '/news/nda-ahpc-ppau-meeting': {
+      id: '/news/nda-ahpc-ppau-meeting'
+      path: '/nda-ahpc-ppau-meeting'
+      fullPath: '/news/nda-ahpc-ppau-meeting'
+      preLoaderRoute: typeof NewsNdaAhpcPpauMeetingRouteImport
+      parentRoute: typeof NewsRoute
+    }
+    '/news/pharmacy-professionals-marketing': {
+      id: '/news/pharmacy-professionals-marketing'
+      path: '/pharmacy-professionals-marketing'
+      fullPath: '/news/pharmacy-professionals-marketing'
+      preLoaderRoute: typeof NewsPharmacyProfessionalsMarketingRouteImport
+      parentRoute: typeof NewsRoute
+    }
+    '/news/ppau-ndhpact-alarm': {
+      id: '/news/ppau-ndhpact-alarm'
+      path: '/ppau-ndhpact-alarm'
+      fullPath: '/news/ppau-ndhpact-alarm'
+      preLoaderRoute: typeof NewsPpauNdhpactAlarmRouteImport
+      parentRoute: typeof NewsRoute
+    }
+    '/news/ppau-uhpab-transcripts': {
+      id: '/news/ppau-uhpab-transcripts'
+      path: '/ppau-uhpab-transcripts'
+      fullPath: '/news/ppau-uhpab-transcripts'
+      preLoaderRoute: typeof NewsPpauUhpabTranscriptsRouteImport
+      parentRoute: typeof NewsRoute
+    }
+    '/voting/': {
+      id: '/voting/'
+      path: '/voting'
+      fullPath: '/voting/'
+      preLoaderRoute: typeof VotingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voting/$id': {
+      id: '/voting/$id'
+      path: '/voting/$id'
+      fullPath: '/voting/$id'
+      preLoaderRoute: typeof VotingIdRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/applications/': {
       id: '/admin/applications/'
@@ -902,25 +1007,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminApplicationsIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/membership-form/payment/callback': {
-      id: '/membership-form/payment/callback'
-      path: '/callback'
-      fullPath: '/membership-form/payment/callback'
-      preLoaderRoute: typeof MembershipFormPaymentCallbackRouteImport
-      parentRoute: typeof MembershipFormPaymentRoute
-    }
-    '/admin/members/rejected': {
-      id: '/admin/members/rejected'
-      path: '/members/rejected'
-      fullPath: '/admin/members/rejected'
-      preLoaderRoute: typeof AdminMembersRejectedRouteImport
+    '/admin/applications/$id': {
+      id: '/admin/applications/$id'
+      path: '/applications/$id'
+      fullPath: '/admin/applications/$id'
+      preLoaderRoute: typeof AdminApplicationsIdRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/members/accepted': {
-      id: '/admin/members/accepted'
-      path: '/members/accepted'
-      fullPath: '/admin/members/accepted'
-      preLoaderRoute: typeof AdminMembersAcceptedRouteImport
+    '/admin/elections/': {
+      id: '/admin/elections/'
+      path: '/elections'
+      fullPath: '/admin/elections/'
+      preLoaderRoute: typeof AdminElectionsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/elections/$id': {
+      id: '/admin/elections/$id'
+      path: '/elections/$id'
+      fullPath: '/admin/elections/$id'
+      preLoaderRoute: typeof AdminElectionsIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/email/broadcast': {
+      id: '/admin/email/broadcast'
+      path: '/broadcast'
+      fullPath: '/admin/email/broadcast'
+      preLoaderRoute: typeof AdminEmailBroadcastRouteImport
+      parentRoute: typeof AdminEmailRouteRoute
+    }
+    '/admin/email/settings': {
+      id: '/admin/email/settings'
+      path: '/settings'
+      fullPath: '/admin/email/settings'
+      preLoaderRoute: typeof AdminEmailSettingsRouteImport
+      parentRoute: typeof AdminEmailRouteRoute
+    }
+    '/admin/email/templates': {
+      id: '/admin/email/templates'
+      path: '/templates'
+      fullPath: '/admin/email/templates'
+      preLoaderRoute: typeof AdminEmailTemplatesRouteRouteImport
+      parentRoute: typeof AdminEmailRouteRoute
+    }
+    '/admin/forms/professional': {
+      id: '/admin/forms/professional'
+      path: '/forms/professional'
+      fullPath: '/admin/forms/professional'
+      preLoaderRoute: typeof AdminFormsProfessionalRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/forms/student': {
@@ -930,40 +1063,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFormsStudentRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/forms/professional': {
-      id: '/admin/forms/professional'
-      path: '/forms/professional'
-      fullPath: '/admin/forms/professional'
-      preLoaderRoute: typeof AdminFormsProfessionalRouteImport
+    '/admin/members/accepted': {
+      id: '/admin/members/accepted'
+      path: '/members/accepted'
+      fullPath: '/admin/members/accepted'
+      preLoaderRoute: typeof AdminMembersAcceptedRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/email/settings': {
-      id: '/admin/email/settings'
-      path: '/settings'
-      fullPath: '/admin/email/settings'
-      preLoaderRoute: typeof AdminEmailSettingsRouteImport
-      parentRoute: typeof AdminEmailRouteRoute
-    }
-    '/admin/email/broadcast': {
-      id: '/admin/email/broadcast'
-      path: '/broadcast'
-      fullPath: '/admin/email/broadcast'
-      preLoaderRoute: typeof AdminEmailBroadcastRouteImport
-      parentRoute: typeof AdminEmailRouteRoute
-    }
-    '/admin/applications/$id': {
-      id: '/admin/applications/$id'
-      path: '/applications/$id'
-      fullPath: '/admin/applications/$id'
-      preLoaderRoute: typeof AdminApplicationsIdRouteImport
+    '/admin/members/rejected': {
+      id: '/admin/members/rejected'
+      path: '/members/rejected'
+      fullPath: '/admin/members/rejected'
+      preLoaderRoute: typeof AdminMembersRejectedRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/email/templates': {
-      id: '/admin/email/templates'
-      path: '/templates'
-      fullPath: '/admin/email/templates'
-      preLoaderRoute: typeof AdminEmailTemplatesRouteRouteImport
-      parentRoute: typeof AdminEmailRouteRoute
+    '/membership-form/payment/callback': {
+      id: '/membership-form/payment/callback'
+      path: '/callback'
+      fullPath: '/membership-form/payment/callback'
+      preLoaderRoute: typeof MembershipFormPaymentCallbackRouteImport
+      parentRoute: typeof MembershipFormPaymentRoute
+    }
+    '/voting/$id/': {
+      id: '/voting/$id/'
+      path: '/'
+      fullPath: '/voting/$id/'
+      preLoaderRoute: typeof VotingIdIndexRouteImport
+      parentRoute: typeof VotingIdRouteRoute
+    }
+    '/voting/$id/results': {
+      id: '/voting/$id/results'
+      path: '/results'
+      fullPath: '/voting/$id/results'
+      preLoaderRoute: typeof VotingIdResultsRouteImport
+      parentRoute: typeof VotingIdRouteRoute
     }
     '/admin/email/templates/': {
       id: '/admin/email/templates/'
@@ -1021,13 +1154,16 @@ interface AdminRouteRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMigrationRoute: typeof AdminMigrationRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminVotersRoute: typeof AdminVotersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminApplicationsIdRoute: typeof AdminApplicationsIdRoute
+  AdminElectionsIdRoute: typeof AdminElectionsIdRoute
   AdminFormsProfessionalRoute: typeof AdminFormsProfessionalRoute
   AdminFormsStudentRoute: typeof AdminFormsStudentRoute
   AdminMembersAcceptedRoute: typeof AdminMembersAcceptedRoute
   AdminMembersRejectedRoute: typeof AdminMembersRejectedRoute
   AdminApplicationsIndexRoute: typeof AdminApplicationsIndexRoute
+  AdminElectionsIndexRoute: typeof AdminElectionsIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -1037,13 +1173,16 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   AdminMigrationRoute: AdminMigrationRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminVotersRoute: AdminVotersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminApplicationsIdRoute: AdminApplicationsIdRoute,
+  AdminElectionsIdRoute: AdminElectionsIdRoute,
   AdminFormsProfessionalRoute: AdminFormsProfessionalRoute,
   AdminFormsStudentRoute: AdminFormsStudentRoute,
   AdminMembersAcceptedRoute: AdminMembersAcceptedRoute,
   AdminMembersRejectedRoute: AdminMembersRejectedRoute,
   AdminApplicationsIndexRoute: AdminApplicationsIndexRoute,
+  AdminElectionsIndexRoute: AdminElectionsIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
@@ -1119,6 +1258,20 @@ const NewsRouteChildren: NewsRouteChildren = {
 
 const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
+interface VotingIdRouteRouteChildren {
+  VotingIdResultsRoute: typeof VotingIdResultsRoute
+  VotingIdIndexRoute: typeof VotingIdIndexRoute
+}
+
+const VotingIdRouteRouteChildren: VotingIdRouteRouteChildren = {
+  VotingIdResultsRoute: VotingIdResultsRoute,
+  VotingIdIndexRoute: VotingIdIndexRoute,
+}
+
+const VotingIdRouteRouteWithChildren = VotingIdRouteRoute._addFileChildren(
+  VotingIdRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
@@ -1136,6 +1289,8 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   StrategicPlanRoute: StrategicPlanRoute,
   TrainingInstitutionsRoute: TrainingInstitutionsRoute,
+  VotingIdRouteRoute: VotingIdRouteRouteWithChildren,
+  VotingIndexRoute: VotingIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

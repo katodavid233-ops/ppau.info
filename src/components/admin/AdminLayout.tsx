@@ -13,6 +13,8 @@ import {
   GraduationCap,
   Mail,
   MessageSquare,
+  Vote,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth/session";
@@ -68,6 +70,8 @@ const nav: NavItem[] = [
     icon: UserX,
   },
   { to: "/admin/contact", label: "Contact page", icon: MessageSquare },
+  { to: "/admin/elections", label: "Elections", icon: Vote },
+  { to: "/admin/voters", label: "Voters", icon: ShieldCheck },
   { to: "/admin/email/templates", label: "Email", icon: Mail },
   { to: "/admin/admins", label: "Admins", icon: Users },
   { to: "/admin/migration", label: "Import CSV", icon: Upload },
