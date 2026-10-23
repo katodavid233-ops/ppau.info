@@ -114,7 +114,7 @@ export function Header() {
               asChild
               className="bg-primary hover:bg-secondary text-white font-semibold px-6 h-10 rounded-full text-[12px] shadow-card transition-all"
             >
-              <Link to="/membership">Join Now</Link>
+              <Link to="/membership">Join</Link>
             </Button>
           </div>
 
