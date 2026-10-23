@@ -26,6 +26,20 @@ const SLUG_MAP: Record<EmailTemplateSlug, string> = {
   contact_submission: "contact_submission",
 };
 
+export type EmailAttachment = {
+  filename: string;
+  /** Base64-encoded file content. */
+  content: string;
+  contentType?: string;
+};
+
+function decodeBase64(base64: string): Uint8Array {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
 type EmailSettingsRow = {
   from_name: string;
   from_email: string;
@@ -135,6 +149,7 @@ async function sendViaResend(opts: {
   fromName: string;
   fromEmail: string;
   replyTo?: string | null;
+  attachments?: EmailAttachment[];
 }) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   if (!apiKey) {
@@ -153,6 +168,11 @@ async function sendViaResend(opts: {
       subject: opts.subject,
       html: opts.html,
       reply_to: opts.replyTo ?? undefined,
+      attachments: opts.attachments?.map((a) => ({
+        filename: a.filename,
+        content: a.content,
+        content_type: a.contentType,
+      })),
     }),
   });
 
@@ -175,6 +195,7 @@ async function sendViaSmtp(opts: {
   fromName: string;
   fromEmail: string;
   settings: EmailSettingsRow;
+  attachments?: EmailAttachment[];
 }) {
   const host = opts.settings.smtp_host?.trim();
   const user = opts.settings.smtp_user?.trim();
@@ -205,6 +226,11 @@ async function sendViaSmtp(opts: {
       subject: opts.subject,
       html: opts.html,
       content: "auto",
+      attachments: opts.attachments?.map((a) => ({
+        filename: a.filename,
+        contentType: a.contentType,
+        content: decodeBase64(a.content),
+      })),
     });
     await client.close();
     return { ok: true as const, provider: "smtp" as const };
@@ -228,6 +254,9 @@ async function dispatchEmail(opts: {
   template: string;
   settings: EmailSettingsRow | null;
   metadata?: Record<string, string>;
+  /** Send html as-is (already a complete email document, e.g. a newsletter) instead of wrapping with branding. */
+  fullHtml?: boolean;
+  attachments?: EmailAttachment[];
 }) {
   const supabase = getServiceClient();
   const settings = opts.settings;
@@ -237,11 +266,13 @@ async function dispatchEmail(opts: {
   const fromName = settings?.from_name ?? "PPAU Membership";
   const provider = settings?.email_provider === "smtp" ? "smtp" : "resend";
 
-  const wrappedHtml = wrapEmail(opts.html, {
-    logo_url: logoUrl,
-    primary_color: settings?.primary_color ?? "#0d9488",
-    footer_html: settings?.footer_html ?? null,
-  });
+  const wrappedHtml = opts.fullHtml
+    ? opts.html
+    : wrapEmail(opts.html, {
+        logo_url: logoUrl,
+        primary_color: settings?.primary_color ?? "#0d9488",
+        footer_html: settings?.footer_html ?? null,
+      });
 
   const sendOpts = {
     to: opts.to,
@@ -250,6 +281,7 @@ async function dispatchEmail(opts: {
     fromName,
     fromEmail,
     replyTo: settings?.reply_to,
+    attachments: opts.attachments,
   };
 
   const result = provider === "smtp"
@@ -332,6 +364,8 @@ export async function sendBroadcastEmail(opts: {
   html: string;
   data?: Record<string, string>;
   runId?: string;
+  fullHtml?: boolean;
+  attachments?: EmailAttachment[];
 }) {
   const settings = await loadSettings();
   const data = opts.data ?? {};
@@ -347,5 +381,7 @@ export async function sendBroadcastEmail(opts: {
     template: "broadcast",
     settings,
     metadata,
+    fullHtml: opts.fullHtml,
+    attachments: opts.attachments,
   });
 }

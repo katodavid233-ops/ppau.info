@@ -219,16 +219,32 @@ export type BroadcastBatchResult = {
   failures: { email: string; error: string }[];
 };
 
+export type BroadcastAttachment = {
+  filename: string;
+  /** Base64-encoded file content. */
+  content: string;
+  contentType?: string;
+};
+
 export async function sendMemberBroadcast(
   subject: string,
   html: string,
   accessToken: string,
   offset = 0,
   runId: string | null = null,
+  attachments: BroadcastAttachment[] = [],
 ) {
+  const fullHtml = /^\s*(<!doctype html|<\s*html)/i.test(html);
   return invokeFunction<BroadcastBatchResult>(
     "admin-send-broadcast",
-    { subject, html, offset, ...(runId ? { runId } : {}) },
+    {
+      subject,
+      html,
+      fullHtml,
+      offset,
+      ...(runId ? { runId } : {}),
+      ...(attachments.length ? { attachments } : {}),
+    },
     `Bearer ${accessToken}`,
   );
 }
@@ -239,12 +255,13 @@ export async function sendMemberBroadcastToAll(
   html: string,
   accessToken: string,
   onProgress?: (result: BroadcastBatchResult) => void,
+  attachments: BroadcastAttachment[] = [],
 ) {
   const runId = crypto.randomUUID();
   let offset = 0;
   let last: BroadcastBatchResult;
   do {
-    last = await sendMemberBroadcast(subject, html, accessToken, offset, runId);
+    last = await sendMemberBroadcast(subject, html, accessToken, offset, runId, attachments);
     offset = last.next_offset;
     onProgress?.(last);
   } while (!last.done);
@@ -254,11 +271,7 @@ export async function sendMemberBroadcastToAll(
 export async function adminAction(
   application_id: string,
   action:
-    | "approve"
-    | "approve_without_payment"
-    | "reject"
-    | "verify_payment"
-    | "reject_payment_proof",
+    "approve" | "approve_without_payment" | "reject" | "verify_payment" | "reject_payment_proof",
   admin_notes?: string,
   accessToken?: string,
 ) {

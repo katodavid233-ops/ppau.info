@@ -197,6 +197,7 @@ function ProfessionalFormPage() {
         search: { application_id: appId },
       });
     } catch (e) {
+      console.error("Submit failed:", e);
       toast.error(e instanceof Error ? e.message : "Submission failed");
     }
   }

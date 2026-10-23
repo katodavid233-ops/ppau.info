@@ -37,7 +37,7 @@ export function Header() {
             </a>
             <span className="hidden xl:inline text-white/60">|</span>
             <Link to="/member/login" className="hover:underline font-medium text-white">
-              Member login
+              Member
             </Link>
             <span className="hidden xl:inline text-white/60">|</span>
             <a
@@ -108,7 +108,7 @@ export function Header() {
               variant="outline"
               className="h-10 rounded-full text-[12px] font-semibold border-primary/30 text-primary hover:bg-primary/5"
             >
-              <Link to="/member/login">Member login</Link>
+              <Link to="/member/login">Member</Link>
             </Button>
             <Button
               asChild
@@ -162,7 +162,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-xl px-4 py-3 text-sm font-medium text-primary border border-primary/30 hover:bg-primary/5 transition-all mt-2 text-center"
               >
-                Member login
+                Member
               </Link>
               <Button asChild className="mt-3 bg-primary rounded-xl h-12 font-semibold text-sm">
                 <Link to="/membership" onClick={() => setOpen(false)}>
