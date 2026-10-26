@@ -15,6 +15,8 @@
 
 **Email delivery:** Admin → **Email → Settings** (`/admin/email/settings`). Choose **Resend API** (secrets above) or **SMTP** (host, port, username, password saved in `email_settings`). Use **Send test email** after saving.
 
+**Approval password setup:** When an admin approves a membership application, the `admin-approve-application` Edge Function uses the Supabase service-role key server-side to generate a one-time invite/recovery link targeting `/member/set-password`. It sends one approval email per application; repeated approval requests do not resend a successfully delivered email. Deploy updates with `supabase functions deploy admin-approve-application` and apply the matching migration in `supabase/migrations/`.
+
 **Contact form:** `notification_email` (Admin → Contact) accepts comma-separated recipients. The `submit-contact` function emails each; if all fail, it falls back to Web3Forms (requires `WEB3FORMS_ACCESS_KEY`).
 
 **Broadcast:** Admin → **Email → Send to members** (`/admin/email/broadcast`). Sends to every approved member in batches of 40 (concurrency 3 + 160 ms delay to respect Resend's 10 req/s limit). Retry-safe: already-delivered recipients are skipped via `email_log.metadata.run_id`. `{{name}}` is replaced per recipient. Deploy with `supabase functions deploy admin-send-broadcast`.
@@ -65,22 +67,22 @@ POST https://<project>.supabase.co/functions/v1/send-renewal-reminders
 
 ## Routes
 
-| Path | Purpose |
-|------|---------|
-| `/membership-form` | Application hub |
-| `/membership-form/professional` | Professional form |
-| `/membership-form/student` | Student form (free) |
-| `/membership-form/payment` | Payment step |
-| `/member/login` | Member portal |
-| `/admin/login` | Admin sign-in |
-| `/admin` | **Dashboard** (stats, recent applications) |
-| `/admin/applications` | All applications |
-| `/admin/payments` | Payments ledger |
-| `/admin/members/accepted` | Accepted members & approved applications |
-| `/admin/members/rejected` | Rejected applications |
-| `/admin/forms/professional` | Edit professional application form |
-| `/admin/forms/student` | Edit student application form |
-| `/admin/email/templates` | Email templates (welcome, reminders, etc.) |
-| `/admin/email/templates/$slug` | Edit a single template |
-| `/admin/email/settings` | Sender, logo (`/PPAU_logo.jpeg`), colors, reminders |
-| `/admin/admins` | Admins management (requires `admin-manage-users` Edge Function) |
+| Path                            | Purpose                                                         |
+| ------------------------------- | --------------------------------------------------------------- |
+| `/membership-form`              | Application hub                                                 |
+| `/membership-form/professional` | Professional form                                               |
+| `/membership-form/student`      | Student form (free)                                             |
+| `/membership-form/payment`      | Payment step                                                    |
+| `/member/login`                 | Member portal                                                   |
+| `/admin/login`                  | Admin sign-in                                                   |
+| `/admin`                        | **Dashboard** (stats, recent applications)                      |
+| `/admin/applications`           | All applications                                                |
+| `/admin/payments`               | Payments ledger                                                 |
+| `/admin/members/accepted`       | Accepted members & approved applications                        |
+| `/admin/members/rejected`       | Rejected applications                                           |
+| `/admin/forms/professional`     | Edit professional application form                              |
+| `/admin/forms/student`          | Edit student application form                                   |
+| `/admin/email/templates`        | Email templates (welcome, reminders, etc.)                      |
+| `/admin/email/templates/$slug`  | Edit a single template                                          |
+| `/admin/email/settings`         | Sender, logo (`/PPAU_logo.jpeg`), colors, reminders             |
+| `/admin/admins`                 | Admins management (requires `admin-manage-users` Edge Function) |

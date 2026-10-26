@@ -3,7 +3,12 @@ import { useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getSupabase } from "@/lib/supabase/client";
-import { adminAction, deleteApplication, getDocumentUrl, resendPaymentEmail } from "@/lib/membership/api";
+import {
+  adminAction,
+  deleteApplication,
+  getDocumentUrl,
+  resendPaymentEmail,
+} from "@/lib/membership/api";
 import { fetchFormConfig } from "@/lib/admin/forms";
 import {
   applicationMetadataRows,
@@ -51,8 +56,7 @@ function ApplicationDetailPage() {
     },
   });
 
-  const membershipType =
-    app?.membership_type === "student" ? "student" : "professional";
+  const membershipType = app?.membership_type === "student" ? "student" : "professional";
 
   const { data: formConfig } = useQuery({
     queryKey: ["form-config", membershipType],
@@ -76,7 +80,9 @@ function ApplicationDetailPage() {
 
   async function getAccessToken() {
     const sb = getSupabase();
-    const { data: { session } } = await sb.auth.getSession();
+    const {
+      data: { session },
+    } = await sb.auth.getSession();
     if (!session?.access_token) throw new Error("Not signed in");
     return session.access_token;
   }
@@ -127,21 +133,24 @@ function ApplicationDetailPage() {
 
   async function runAction(
     action:
-      | "approve"
-      | "approve_without_payment"
-      | "reject"
-      | "verify_payment"
-      | "reject_payment_proof",
+      "approve" | "approve_without_payment" | "reject" | "verify_payment" | "reject_payment_proof",
     actionNotes?: string,
   ) {
     setLoading(action);
     try {
       const token = await getAccessToken();
-      await adminAction(id, action, actionNotes ?? (notes || undefined), token);
+      const result = await adminAction(id, action, actionNotes ?? (notes || undefined), token);
+      if (action === "approve" && app?.status === "approved") {
+        toast.success(
+          result.email_status === "processing"
+            ? "Approval setup email is already being prepared"
+            : "Approval setup email sent or already delivered",
+        );
+        queryClient.invalidateQueries({ queryKey: ["admin-application", id] });
+        return;
+      }
       const label =
-        action === "approve" || action === "approve_without_payment"
-          ? "accepted"
-          : action;
+        action === "approve" || action === "approve_without_payment" ? "accepted" : action;
       toast.success(`Application ${label}`);
       queryClient.invalidateQueries({ queryKey: ["admin-application", id] });
       queryClient.invalidateQueries({ queryKey: ["admin-applications"] });
@@ -158,8 +167,7 @@ function ApplicationDetailPage() {
   const hasPaymentProof = documents.some((d) => d.document_type === "payment_proof");
   const awaitingPaymentReview =
     app.payment_status === "pending_verification" ||
-    (hasPaymentProof &&
-      (app.payment_status === "unpaid" || app.payment_status === "failed"));
+    (hasPaymentProof && (app.payment_status === "unpaid" || app.payment_status === "failed"));
 
   const isDecided = app.status === "approved" || app.status === "rejected";
 
@@ -189,6 +197,17 @@ function ApplicationDetailPage() {
         <div className="flex flex-wrap items-center gap-2">
           <Badge>{app.status}</Badge>
           <Badge variant="outline">{app.payment_status}</Badge>
+          {app.status === "approved" && (
+            <Button
+              variant="outline"
+              className="rounded-full gap-1.5"
+              disabled={!!loading}
+              onClick={() => runAction("approve")}
+            >
+              <Mail className="h-4 w-4" />
+              {loading === "approve" ? "Checking…" : "Retry setup email"}
+            </Button>
+          )}
           {canAccept && (
             <Button
               disabled={!!loading}
@@ -283,7 +302,9 @@ function ApplicationDetailPage() {
                 className="flex flex-wrap items-center justify-between gap-2 rounded-lg border bg-white px-4 py-3 text-sm"
               >
                 <span>
-                  <span className="font-medium capitalize">{d.document_type.replace(/_/g, " ")}</span>
+                  <span className="font-medium capitalize">
+                    {d.document_type.replace(/_/g, " ")}
+                  </span>
                   <span className="text-muted-foreground"> — {d.file_name}</span>
                 </span>
                 <Button
@@ -312,7 +333,11 @@ function ApplicationDetailPage() {
 
       <div className="flex flex-wrap gap-2">
         {canAccept && (
-          <Button disabled={!!loading} className="rounded-full gap-1.5" onClick={() => runAction("approve")}>
+          <Button
+            disabled={!!loading}
+            className="rounded-full gap-1.5"
+            onClick={() => runAction("approve")}
+          >
             <CheckCircle className="h-4 w-4" />
             {loading === "approve" ? "Accepting…" : "Accept"}
           </Button>

@@ -111,8 +111,8 @@ const FALLBACK: Record<string, (d: Record<string, string>) => { subject: string;
     html: `<p>Dear ${d.name},</p><p>Membership number: ${d.membership_number}</p>`,
   }),
   approved: (d) => ({
-    subject: "Welcome to PPAU",
-    html: `<p>Dear ${d.name},</p><p>Membership number: ${d.membership_number}</p>`,
+    subject: "You're approved — set your password and enter the portal",
+    html: `<p>Dear ${d.name},</p><p>Your PPAU membership has been approved. Set your password and enter the member portal using the link below.</p><p><a href="${d.invite_link}">Set your password and enter the portal</a></p><p><strong>Membership number:</strong> ${d.membership_number}</p><p>Valid until: ${d.period_end}</p>`,
   }),
   rejected: (d) => ({
     subject: "PPAU Application Update",
@@ -153,7 +153,11 @@ async function sendViaResend(opts: {
 }) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   if (!apiKey) {
-    return { ok: false as const, skipped: true, error: "RESEND_API_KEY not configured in Supabase secrets" };
+    return {
+      ok: false as const,
+      skipped: true,
+      error: "RESEND_API_KEY not configured in Supabase secrets",
+    };
   }
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -180,9 +184,10 @@ async function sendViaResend(opts: {
   if (!res.ok) {
     return {
       ok: false as const,
-      error: typeof body === "object" && body && "message" in body
-        ? String((body as { message: string }).message)
-        : JSON.stringify(body),
+      error:
+        typeof body === "object" && body && "message" in body
+          ? String((body as { message: string }).message)
+          : JSON.stringify(body),
     };
   }
   return { ok: true as const, provider: "resend" as const };
@@ -228,8 +233,9 @@ async function sendViaSmtp(opts: {
       content: "auto",
       attachments: opts.attachments?.map((a) => ({
         filename: a.filename,
-        contentType: a.contentType,
+        contentType: a.contentType ?? "application/octet-stream",
         content: decodeBase64(a.content),
+        encoding: "binary" as const,
       })),
     });
     await client.close();
@@ -262,7 +268,8 @@ async function dispatchEmail(opts: {
   const settings = opts.settings;
   const appUrl = Deno.env.get("APP_URL") ?? settings?.app_url ?? "https://ppau.info";
   const logoUrl = settings?.logo_url ?? `${appUrl}/PPAU_logo.jpeg`;
-  const fromEmail = settings?.from_email ?? Deno.env.get("RESEND_FROM_EMAIL") ?? "membership@ppau.info";
+  const fromEmail =
+    settings?.from_email ?? Deno.env.get("RESEND_FROM_EMAIL") ?? "membership@ppau.info";
   const fromName = settings?.from_name ?? "PPAU Membership";
   const provider = settings?.email_provider === "smtp" ? "smtp" : "resend";
 
@@ -284,9 +291,21 @@ async function dispatchEmail(opts: {
     attachments: opts.attachments,
   };
 
-  const result = provider === "smtp"
-    ? await sendViaSmtp({ ...sendOpts, settings: settings ?? { from_name: fromName, from_email: fromEmail, reply_to: null, logo_url: logoUrl, primary_color: "#0d9488", footer_html: null, app_url: appUrl } })
-    : await sendViaResend(sendOpts);
+  const result =
+    provider === "smtp"
+      ? await sendViaSmtp({
+          ...sendOpts,
+          settings: settings ?? {
+            from_name: fromName,
+            from_email: fromEmail,
+            reply_to: null,
+            logo_url: logoUrl,
+            primary_color: "#0d9488",
+            footer_html: null,
+            app_url: appUrl,
+          },
+        })
+      : await sendViaResend(sendOpts);
 
   const status = result.ok ? "sent" : result.skipped ? "skipped" : "failed";
 
@@ -295,7 +314,7 @@ async function dispatchEmail(opts: {
     template: opts.template,
     subject: opts.subject,
     status,
-    error_message: result.ok ? null : ("error" in result ? result.error : null),
+    error_message: result.ok ? null : "error" in result ? result.error : null,
     metadata: opts.metadata ?? null,
   });
 
